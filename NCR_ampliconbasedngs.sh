@@ -1,6 +1,6 @@
 #### Script generated to analyse data from NCR-mtDNA for ancient samples obtained by amplicon-based NGS methods ####
 
-## time bash NCR_n10_F30_C3.sh 2>&1 | tee NCR_n10_F30_C3.log
+## time bash NCR_ampliconbasedngs.sh 2>&1 | tee NCR_ampliconbasedngs.log
 
 
 source activate ngs_analysis
