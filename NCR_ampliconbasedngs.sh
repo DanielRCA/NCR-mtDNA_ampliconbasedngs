@@ -148,28 +148,39 @@ while read sample; do
     #Quality and mean depth coverage of bams is checked for the file with all reads
 	qualimap bamqc -bam ${bam} -c -gd hg19 -outdir 3_qualimap_bamqc
 	qual=$(grep "mean mapping quality" 3_qualimap_bamqc/genome_results.txt | sed 's/mean mapping quality = //')
-	echo "${sample} ${qual}" >> ${file}/tem_qual.txt
+	echo "${sample} ${qual}" >> ${main_dir}/tem_qual.txt
 	cov=$(grep "mean coverageData" 3_qualimap_bamqc/genome_results.txt | sed 's/mean coverageData = //' | sed 's/X//' | sed 's/,//')
-	echo "${sample} ${cov}" >> ${file}/tem_cov.txt
+	echo "${sample} ${cov}" >> ${main_dir}/tem_cov.txt
     
 ##
     
-    #Ranges for positions with a depth coverage over 10 are generated
+    #Ranges for positions with a depth coverage over 5X and 10X are generated
     echo "
-    Range of positions with a depth coverage higher than 10 reads is being determined...
+    Ranges of positions are being determined...
     "
-    samtools depth ${bam} | awk -F "\t" '$3>9 {print($2)}' |  awk '{if ($1<670) print $1+15900; else print $1-669}' | awk  '$1 < 303 || $1 > 315 {print $1}' | sort -n > temp.txt
-    range=$(python ${main_dir}/range.py temp.txt | sed "s/[',\[\)\( ]//g" | sed "s/]//g" | sed "s/;$//")
-    rm temp.txt
-    echo "${bam} ${range}" >> ${main_dir}/tem_range.txt
-    samtools depth ${pam} | awk -F "\t" '$3>9 {print($2)}' |  awk '{if ($1<670) print $1+15900; else print $1-669}' | awk  '$1 < 303 || $1 > 315 {print $1}' | sort -n > temp.txt
-    range=$(python ${main_dir}/range.py temp.txt | sed "s/[',\[\)\( ]//g" | sed "s/]//g" | sed "s/;$//")
-    rm temp.txt
-    echo "${pam} ${range}" >> ${main_dir}/tem_pmd_range.txt
+	#Depth coverage over 5X in file with all reads
+    samtools depth ${bam} | awk '$3>4 {print $2}' |  awk '{if ($1<670) print $1+15900; else print $1-669}' | awk  '$1 < 303 || $1 > 315 {print $1}' | sort -n > temp.txt
+	range=$(python ${main_dir}/range.py temp.txt | sed "s/[',\[\)\( ]//g" | sed "s/]//g" | sed "s/;$//")
+	#Depth coverage over 10X in file with all reads
+	echo "${sample}_5 ${range}" >> ${main_dir}/tem_range_5.txt
+	samtools depth ${bam} | awk '$3>9 {print $2}' |  awk '{if ($1<670) print $1+15900; else print $1-669}' | awk  '$1 < 303 || $1 > 315 {print $1}' | sort -n > temp.txt
+	range=$(python ${main_dir}/range.py temp.txt | sed "s/[',\[\)\( ]//g" | sed "s/]//g" | sed "s/;$//")
+ 	#Depth coverage over 5X in file with damaged reads
+	echo "${sample}_10 ${range}" >> ${main_dir}/tem_range_10.txt
+    samtools depth ${pam} | awk -F "\t" '$3>4 {print($2)}' |  awk '{if ($1<670) print $1+15900; else print $1-669}' | awk  '$1 < 303 || $1 > 315 {print $1}' | sort -n > temp_pmd.txt
+	range_pmd=$(python ${main_dir}/range.py temp_pmd.txt | sed "s/[',\[\)\( ]//g" | sed "s/]//g" | sed "s/;$//")
+ 	#Depth coverage over 10X in file with daamged reads
+	echo "${sample}_5_pmd ${range_pmd}" >> ${main_dir}/tem_range_pmd_5.txt  
+	samtools depth ${pam} | awk -F "\t" '$3>9 {print($2)}' |  awk '{if ($1<670) print $1+15900; else print $1-669}' | awk  '$1 < 303 || $1 > 315 {print $1}' | sort -n > temp_pmd.txt
+	range_pmd=$(python ${main_dir}/range.py temp_pmd.txt | sed "s/[',\[\)\( ]//g" | sed "s/]//g" | sed "s/;$//")
+	echo "${sample}_10_pmd ${range_pmd}" >> ${main_dir}/tem_range_pmd_10.txt
+    rm temp_pmd.txt
     
     bases_with_good_cov=$(samtools depth ${bam} | awk '$3>9 {print $2"\t"1}' | awk '{sum += $2} END {print sum}')
-    echo -e "${sample} ${bases_with_good_cov}" >> ${main_dir}/tem_goodcovinsamples.txt
+    echo -e "${sample}\t${bases_with_good_cov}" >> ${main_dir}/tem_goodcovinsamples.txt
 
+ ##
+ 
     #Variant call is done with freebayes and vcfallelicprimitives
     echo "
     Starting the variant call
