@@ -27,13 +27,12 @@ else
     mv ${seq_ref} ${ref}
 fi
 cd ${ref}
-#Si ya existen los índices, se enviará un mensaje, en caso contrartio, se crearán.
+#Indexes would be generated only the first time.
 if [[ -e ${seq_ref}.amb ]] && [[ -e ${seq_ref}.fai ]] ; then
     echo "
     Indexes were already created
     "
     picard CreateSequenceDictionary R=${seq_ref} O=rCRS_NCR_linear.dict
-    NCR=$(pwd)/${re2}
 else
     echo "
     Indexes are being created
@@ -47,9 +46,10 @@ cd ${main_dir}
 NCR=${ref}/${seq_ref}
 
 #A list with all the directories that have samples is made
-for sample in *; do if  [[ -d ${d} ]] && [[ ${d} != ${vis} ]] && [[ ${d} != ${ref} ]]; then  echo $sample; fi done > temp_samples.txt
+for sample in *; do if  [[ -d ${d} ]] && [[ ${d} != ${vis} ]] && [[ ${d} != ${ref} ]]; then  echo $sample; fi done > samples.txt
 
-echo -e "Sample\tPosition\tAlternative_base\tN_total\tN_alternative\tPercentage" > base_mix.txt
+echo -e "Sample\tPosition\tAlternative_base\tN_total\tN_alternative\tPercentage" > base_mix_cov5.txt
+echo -e "Sample\tPosition\tAlternative_base\tN_total\tN_alternative\tPercentage" > base_mix_cov10.txt
 
 while read sample; do
       
@@ -69,60 +69,46 @@ while read sample; do
         fastqc -o ${fastq_file} -f fastq *fastq.gz
     fi
    
-   #First fastp: to remove duplicates
-   fastp --verbose \
-         --dedup \
-         --disable_length_filtering \
-         --disable_quality_filtering \
-         --json ${sample}_dedup_temp.json \
-         --thread 8 \
-         --out1 ${sample}_fastp_dedup_R1_temp.fq.gz \
-         --out2 ${sample}_fastp_dedup_R2_temp.fq.gz \
-         --in1 *R1*.fastq.gz \
-         --in2 *R2*.fastq.gz
+   #First fastp. To trim adapters and remove duplicates
+   fastp --dedup \
+       --detect_adapter_for_pe \
+       --trim_poly_x \
+       --length_required 30 \
+       --thread 8 \
+       --json ${sample}_temp.json \
+       --out1 ${sample}_fastp_filtered_R1_temp.fq.gz \
+       --out2 ${sample}_fastp_filtered_R2_temp.fq.gz \
+       --in1 *R1*.fastq.gz \
+       --in2 *R2*.fastq.gz
         
-    #Number of reads with duplicates is determined
-    num_1=$(grep before_filtering -m 1 -A1 ${sample}_dedup_temp.json | grep total | sed "s/.*://g" | sed "s/,//g")
-    echo "Number of total reads ${sample}: ${num_1}" >> reads.txt
+    #Number reads from fastqs
+    num_1=$(grep before_filtering -m 1 -A1 ${sample}_temp.json | grep total | sed "s/.*://g" | sed "s/,//g")
     echo "${sample} ${num_1}" >> ${main_dir}/tem_all.txt
     
-    #Number of reads without duplicates is determined
-    num_2=$(grep after_filtering -m 1 -A1 ${sample}_dedup_temp.json | grep total | sed "s/.*://g" | sed "s/,//g")
-    echo "Number of total reads without duplicates ${sample}: ${num_2}" >> reads.txt
-    echo "${sample} ${num_2}" >> ${main_dir}/tem_no_dups.txt
+    #Percentage of duplication
+    dup_rate=$(echo "$(grep duplication -m 1 -A1 ${sample}_temp.json | grep rate | sed "s/.*://g" | sed "s/,//g")*100" | bc)
+	echo "${sample} ${dup_rate}" >> ${file}/tem_dup_rate.txt
     
-    #Second fastp: to trim adapters
-    fastp --detect_adapter_for_pe \
-          --trim_poly_x \
-          --length_required 30 \
-          --thread 8 \
-          --out1 ${sample}_fastp_filtered_R1_temp.fq.gz \
-          --out2 ${sample}_fastp_filtered_R2_temp.fq.gz \
-          --in1 ${sample}_fastp_dedup_R1_temp.fq.gz \
-          --in2 ${sample}_fastp_dedup_R2_temp.fq.gz
-        
-    #Third fastp: to trim primers (25pb from 5') and 5pb in 3'
-    fastp --trim_front1 25 --trim_tail1 5 \
-          --trim_front2 25 --trim_tail2 5 \
-          --out1 ${sample}_nonprimer_R1_temp.fq.gz \
-          --out2 ${sample}_nonprimer_R2_temp.fq.gz \
-          --in1 ${sample}_fastp_filtered_R1_temp.fq.gz \
-          --in2 ${sample}_fastp_filtered_R2_temp.fq.gz
-        
-    #Fourth fastp: to trim bad quality bases and to merge PE reads
-    fastp --verbose \
-          --cut_tail --cut_tail_mean_quality 20 \
-          --trim_poly_x \
-          --merge --overlap_len_require 10 \
-          --correction \
-          --html ${sample}_temp.html \
-          --json ${sample}_temp.json \
-          --merged_out ${sample}_M.fq.gz \
-          --out1 ${sample}_R1.fq.gz \
-          --out2 ${sample}_R2.fq.gz \
-          --in1 ${sample}_nonprimer_R1_temp.fq.gz \
-          --in2 ${sample}_nonprimer_R2_temp.fq.gz
-    
+    #Second fastp. To trim primers (25pb from 5') and 5pb in 3'
+	fastp --trim_front1 25 --trim_tail1 5 \
+		--trim_front2 25 --trim_tail2 5 \
+		--out1 ${sample}_nonprimer_R1_temp.fq.gz \
+		--out2 ${sample}_nonprimer_R2_temp.fq.gz \
+		--in1 ${sample}_fastp_filtered_R1_temp.fq.gz \
+		--in2 ${sample}_fastp_filtered_R2_temp.fq.gz
+		
+	#Third fastp. To trim bad quality bases
+	fastp --cut_tail --cut_tail_mean_quality 20 \
+		--trim_poly_x \
+		--merge --overlap_len_require 10 \
+		--correction \
+		--html ${sample}_temp.html \
+		--json ${sample}_temp.json \
+		--merged_out ${sample}_M.fq.gz \
+		--out1 ${sample}_R1.fq.gz \
+		--out2 ${sample}_R2.fq.gz \
+		--in1 ${sample}_nonprimer_R1_temp.fq.gz \
+		--in2 ${sample}_nonprimer_R2_temp.fq.gz
     rm *_temp*
 
     #Quality is checked with FastQC
@@ -147,36 +133,27 @@ while read sample; do
     samtools index ${bam}
         
     #The number of reads with good quality is determined
-    num_3=$(samtools view -c ${bam})
-    echo "Number of useful reads ${sample}: ${num_3}" >> reads.txt
-    echo "${sample} ${num_3}" >> ${main_dir}/tem_no_dups_utils.txt
+    num_2=$(samtools view -c ${bam})
+    echo "${sample} ${num_2}" >> ${main_dir}/tem_useful.txt
 
-    #Reads with post-mortem molecular (PMD) damage is extracted
-    echo "
-    Starting PMDtools...
-    "
-    samtools view -h ${b} | pmdtools --threshold 1 --header | samtools view -Sb - > pmd_final_${sample}.bam    
+    #Reads with post-mortem molecular (PMD) damage are extracted
+    samtools view -h ${bam} | pmdtools --threshold 1 --header | samtools view -Sb - > pmd_final_${sample}.bam    
     pam=pmd_final_${sample}.bam
     samtools index ${pam}
         
     #The number of reads with PMD is determined
-    num_4=$(samtools view -c ${pam})
-    echo "Number of damaged reads ${sample}: ${num_4}" >> reads.txt
-    echo "${sample} ${num_4}" >> ${main_dir}/tem_no_dups_utils_pmd.txt
-    
-    #Mean depth coverage is extracted
-    echo "
-    Starting qualimap...
-    "
-    qualimap bamqc -bam ${bam} -c -gd hg19 -outdir 3_${sample}_qualimap_bamqc_all_reads
-    qualimap bamqc -bam ${pam} -c -gd hg19 -outdir 4_${sample}_qualimap_bamqc_damaged_reads
-    cov_b=$(grep "mean coverageData" 3_${sample}_qualimap_bamqc_all_reads/genome_results.txt | sed 's/mean coverageData = //' | sed 's/X//' | sed 's/,//')
-    cov_p=$(grep "mean coverageData" 4_${sample}_qualimap_bamqc_damaged_reads/genome_results.txt | sed 's/mean coverageData = //' | sed 's/X//' | sed 's/,//')
-    echo "Mean depth coverage (all reads) for ${sample}: ${cov_b}" >> reads.txt
-    echo "Mean depth coverage (all reads) for ${sample}: ${cov_p}" >> reads.txt  
-    echo "${bam} ${cov_b}" >> ${main_dir}/tem_cov.txt
-    echo "${pam} ${cov_p}" >> ${main_dir}/tem_cov.txt
+    num_3=$(samtools view -c ${pam})
+    echo "${sample} ${num_3}" >> ${main_dir}/tem_no_dups_utils_pmd.txt
 
+    #Quality and mean depth coverage of bams is checked for the file with all reads
+	qualimap bamqc -bam ${bam} -c -gd hg19 -outdir 3_qualimap_bamqc
+	qual=$(grep "mean mapping quality" 3_qualimap_bamqc/genome_results.txt | sed 's/mean mapping quality = //')
+	echo "${sample} ${qual}" >> ${file}/tem_qual.txt
+	cov=$(grep "mean coverageData" 3_qualimap_bamqc/genome_results.txt | sed 's/mean coverageData = //' | sed 's/X//' | sed 's/,//')
+	echo "${sample} ${cov}" >> ${file}/tem_cov.txt
+    
+##
+    
     #Ranges for positions with a depth coverage over 10 are generated
     echo "
     Range of positions with a depth coverage higher than 10 reads is being determined...
@@ -213,7 +190,7 @@ while read sample; do
     " 
     cd ${main_dir}
 
-done < temp_samples.txt
+done < samples.txt
 
 #File in hsd format (the one requiered by HaploGrep2) is generated in "Visualization directory"
 cd ${main_dir}/${vis}
