@@ -151,9 +151,7 @@ while read sample; do
 	echo "${sample} ${qual}" >> ${main_dir}/tem_qual.txt
 	cov=$(grep "mean coverageData" 3_qualimap_bamqc/genome_results.txt | sed 's/mean coverageData = //' | sed 's/X//' | sed 's/,//')
 	echo "${sample} ${cov}" >> ${main_dir}/tem_cov.txt
-    
-##
-    
+
     #Ranges for positions with a depth coverage over 5X and 10X are generated
     echo "
     Ranges of positions are being determined...
@@ -179,19 +177,29 @@ while read sample; do
     bases_with_good_cov=$(samtools depth ${bam} | awk '$3>9 {print $2"\t"1}' | awk '{sum += $2} END {print sum}')
     echo -e "${sample}\t${bases_with_good_cov}" >> ${main_dir}/tem_goodcovinsamples.txt
 
- ##
- 
     #Variant call is done with freebayes and vcfallelicprimitives
     echo "
     Starting the variant call
     "
-    freebayes -f ${NCR} -i -X -F 0.3 -C 3 --min-coverage 10 ${bam} | vcfallelicprimitives -kg > ${bam}.vcf 
-    awk '$3 == "." && length($4) == 1 && length($5) == 1 {print $2"\t"$4"\t"$5"\t"$10}' ${bam}.vcf | sed 's/:/\t/g' | awk '{print $1"\t"$2"\t"$3"\t"$5"\t"$6"\t"100*$9/$5}' | awk '{if ($6 < 70) print $1"\t"$2$3; else print $1"\t"$3;}' |  sed 's/,.*//' | sed 's/[AGTC]\{4\}/N/g' | sed 's/[ACG]\{3\}/V/g' |sed 's/[ATC]\{3\}/H/g' | sed 's/[ATG]\{3\}/D/g' | sed 's/[GTC]\{3\}/B/g' | sed 's/[AC]\{2\}/M/g' | sed 's/[TG]\{2\}/K/g' | sed 's/[AT]\{2\}/W/g' | sed 's/[GC]\{2\}/S/g' | sed 's/[TC]\{2\}/Y/g' | sed 's/[AG]\{2\}/R/g' | awk '{if ($1<670) print $1+15900$2; else print $1-669$2}' |   sed -e 's/\t$//g' | awk -F"\t" '$1 < 303 || $1 > 315 {print $1$2}' > ${bam}.txt
-    freebayes -f ${NCR} -i -X -F 0.3 -C 3 --min-coverage 10 ${pam} | vcfallelicprimitives -kg > ${pam}.vcf
-    awk '$3 == "." && length($4) == 1 && length($5) == 1 {print $2"\t"$4"\t"$5"\t"$10}' ${pam}.vcf | sed 's/:/\t/g' | awk '{print $1"\t"$2"\t"$3"\t"$5"\t"$6"\t"100*$9/$5}' | awk '{if ($6 < 70) print $1"\t"$2$3; else print $1"\t"$3;}' | sed 's/,.*//' | sed 's/[AGTC]\{4\}/N/g' | sed 's/[ACG]\{3\}/V/g' |sed 's/[ATC]\{3\}/H/g' | sed 's/[ATG]\{3\}/D/g' | sed 's/[GTC]\{3\}/B/g' | sed 's/[AC]\{2\}/M/g' | sed 's/[TG]\{2\}/K/g' | sed 's/[AT]\{2\}/W/g' | sed 's/[GC]\{2\}/S/g' | sed 's/[TC]\{2\}/Y/g' | sed 's/[AG]\{2\}/R/g' | awk '{if ($1<670) print $1+15900$2; else print $1-669$2}' | sed -e 's/\t$//g' | awk -F"\t" '$1 < 303 || $1 > 315 {print $1$2}' > ${pam}.txt
+	#All reads, depth coverage 5X
+	freebayes -f ${NCR} -i -X -F 0.3 -C 2 --min-coverage 5 ${bam} | vcfallelicprimitives -kg > ${bam}_5.vcf 
+	awk '$3 == "." && length($5) == 1 && length($4) == 1 {print $2"\t"$4"\t"$5"\t"$10}' ${bam}_5.vcf | sed 's/:/\t/g' | awk '{print $1"\t"$2"\t"$3"\t"$5"\t"$6"\t"100*$9/$5}' | awk '{if ($6 < 70) print $1"\t"$2$3; else print $1"\t"$3;}' |  sed 's/,.*//' | sed 's/[AGTC]\{4\}/N/g' | sed 's/[ACG]\{3\}/V/g' |sed 's/[ATC]\{3\}/H/g' | sed 's/[ATG]\{3\}/D/g' | sed 's/[GTC]\{3\}/B/g' | sed 's/[AC]\{2\}/M/g' | sed 's/[TG]\{2\}/K/g' | sed 's/[AT]\{2\}/W/g' | sed 's/[GC]\{2\}/S/g' | sed 's/[TC]\{2\}/Y/g' | sed 's/[AG]\{2\}/R/g' | awk '{if ($1<670) print $1+15900$2; else print $1-669$2}' |   sed -e 's/\t$//g' | awk -F"\t" '$1 < 303 || $1 > 315 {print $1$2}' > ${bam}_5.txt
+	#Damaged reads, depth coverage 5X
+	freebayes -f ${NCR} -i -X -F 0.3 -C 2 --min-coverage 5 ${pam} | vcfallelicprimitives -kg > ${pam}_5.vcf
+	awk '$3 == "." && length($5) == 1 && length($4) == 1 {print $2"\t"$4"\t"$5"\t"$10}' ${pam}_5.vcf | sed 's/:/\t/g' | awk '{print $1"\t"$2"\t"$3"\t"$5"\t"$6"\t"100*$9/$5}' | awk '{if ($6 < 70) print $1"\t"$2$3; else print $1"\t"$3;}' | sed 's/[AGTC]\{4\}/N/g' | sed 's/[ACG]\{3\}/V/g' |sed 's/[ATC]\{3\}/H/g' | sed 's/[ATG]\{3\}/D/g' | sed 's/[GTC]\{3\}/B/g' | sed 's/[AC]\{2\}/M/g' | sed 's/[TG]\{2\}/K/g' | sed 's/[AT]\{2\}/W/g' | sed 's/[GC]\{2\}/S/g' | sed 's/[TC]\{2\}/Y/g' | sed 's/[AG]\{2\}/R/g' | awk '{if ($1<670) print $1+15900$2; else print $1-669$2}' | sed -e 's/\t$//g' | awk -F"\t" '$1 < 303 || $1 > 315 {print $1$2}' > ${pam}_5.txt
+	#All reads, depth coverage 10X
+	freebayes -f ${NCR} -i -X -F 0.3 -C 3 --min-coverage 10 ${bam} | vcfallelicprimitives -kg > ${bam}_10.vcf 
+	awk '$3 == "." && length($5) == 1 && length($4) == 1 {print $2"\t"$4"\t"$5"\t"$10}' ${bam}_10.vcf | sed 's/:/\t/g' | awk '{print $1"\t"$2"\t"$3"\t"$5"\t"$6"\t"100*$9/$5}' | awk '{if ($6 < 70) print $1"\t"$2$3; else print $1"\t"$3;}' |  sed 's/,.*//' | sed 's/[AGTC]\{4\}/N/g' | sed 's/[ACG]\{3\}/V/g' |sed 's/[ATC]\{3\}/H/g' | sed 's/[ATG]\{3\}/D/g' | sed 's/[GTC]\{3\}/B/g' | sed 's/[AC]\{2\}/M/g' | sed 's/[TG]\{2\}/K/g' | sed 's/[AT]\{2\}/W/g' | sed 's/[GC]\{2\}/S/g' | sed 's/[TC]\{2\}/Y/g' | sed 's/[AG]\{2\}/R/g' | awk '{if ($1<670) print $1+15900$2; else print $1-669$2}' |   sed -e 's/\t$//g' | awk -F"\t" '$1 < 303 || $1 > 315 {print $1$2}' > ${bam}_10.txt
+	#Damaged reads, depth coverage 10X
+	freebayes -f ${NCR} -i -X -F 0.3 -C 3 --min-coverage 10 ${pam} | vcfallelicprimitives -kg > ${pam}_10.vcf
+	awk '$3 == "." && length($5) == 1 && length($4) == 1 {print $2"\t"$4"\t"$5"\t"$10}' ${pam}_10.vcf | sed 's/:/\t/g' | awk '{print $1"\t"$2"\t"$3"\t"$5"\t"$6"\t"100*$9/$5}' | awk '{if ($6 < 70) print $1"\t"$2$3; else print $1"\t"$3;}' | sed 's/[AGTC]\{4\}/N/g' | sed 's/[ACG]\{3\}/V/g' |sed 's/[ATC]\{3\}/H/g' | sed 's/[ATG]\{3\}/D/g' | sed 's/[GTC]\{3\}/B/g' | sed 's/[AC]\{2\}/M/g' | sed 's/[TG]\{2\}/K/g' | sed 's/[AT]\{2\}/W/g' | sed 's/[GC]\{2\}/S/g' | sed 's/[TC]\{2\}/Y/g' | sed 's/[AG]\{2\}/R/g' | awk '{if ($1<670) print $1+15900$2; else print $1-669$2}' | sed -e 's/\t$//g' | awk -F"\t" '$1 < 303 || $1 > 315 {print $1$2}' > ${pam}_10.txt
+		
+	#Documents with mixtures are done for all reads
+ 	awk '$3 == "." && length($4) == 1 && length($5) == 1 {if ($2<670) print $2+15900"\t"$5"\t"$10; else print $2-669"\t"$5"\t"$10}' ${bam}_5.vcf | awk  '$1 < 303 || $1 > 315 {print $0}' | sed 's/:/\t/g' | awk '{print $1"\t"$2"\t"$4"\t"$8"\t"100*$8/$4"\t"}' | awk -v vd=$d '$5 < 70 {print vd"\t"$0}' >> ${main_dir}/base_mix_5.txt
+	
+	awk '$3 == "." && length($4) == 1 && length($5) == 1 {if ($2<670) print $2+15900"\t"$5"\t"$10; else print $2-669"\t"$5"\t"$10}' ${bam}_10.vcf | awk  '$1 < 303 || $1 > 315 {print $0}' | sed 's/:/\t/g' | awk '{print $1"\t"$2"\t"$4"\t"$8"\t"100*$8/$4"\t"}' | awk -v vd=$d '$5 < 70 {print vd"\t"$0}' >> ${main_dir}/base_mix_10.txt
  
-    awk '$3 == "." && length($4) == 1 && length($5) == 1 {if ($2<670) print $2+15900"\t"$5"\t"$10; else print $2-669"\t"$5"\t"$10}' ${bam}.vcf | awk  '$1 < 303 || $1 > 315 {print $0}' | sed 's/:/\t/g' | awk '{print $1"\t"$2"\t"$4"\t"$8"\t"100*$8/$4"\t"}' | awk -v vd=${sample} '$5 < 70 {print vd"\t"$0}' >> ${main_dir}/base_mix.txt
- 
+    
     cp ${bam}.txt ${main_dir}/${vis}
     cp ${pam}.txt ${main_dir}/${vis}
     
@@ -215,14 +223,23 @@ haplogroup="?"
 for t in *final*bam.txt; do
     #Name is extracted
     sample="${t//*final_/}"
-    name="${t//.txt/}"
     if [[ ${t} == pmd* ]]
     then
-        sample="${sample//.*/_pmd}"
-        ranges=$(awk -v sample=${name} '$1==sample {print $2}' ${main_dir}/tem_pmd_range.txt)
-    else
-        sample="${sample//.*/}"
-        ranges=$(awk -v sample=${name} '$1==sample {print $2}' ${main_dir}/tem_range.txt)
+        if [[ ${t} == *_5.txt ]]; then
+			sample="${sample//.bam_5.*/_5_pmd}"
+			ranges=$(awk -v SAMPLE=${sample} '$1==SAMPLE {print $2}' ${main_dir}/tem_range_pmd_5.txt)
+		else
+			sample="${sample//.bam_10.*/_10_pmd}"
+			ranges=$(awk -v SAMPLE=${sample} '$1==SAMPLE {print $2}' ${main_dir}/tem_range_pmd_10.txt)
+		fi
+	else
+		if [[ ${t} == *_5.txt ]]; then
+			sample="${sample//.bam_5.*/_5}"
+			ranges=$(awk -v SAMPLE=${sample} '$1==SAMPLE {print $2}' ${main_dir}/tem_range_5.txt)
+		else
+			sample="${sample//.bam_10.*/_10}"
+			ranges=$(awk -v SAMPLE=${sample} '$1==SAMPLE {print $2}' ${mamin_dir}/tem_range_10.txt)
+		fi
     fi
     #Fake tabulators are converted into real ones
     sed -i 's/    /\t/g' ${t}
@@ -250,13 +267,32 @@ bash haplogrep classify --in tem_haplogrep_format.txt --format hsd --out tem_hap
 echo "
 Generating final table...
 "
-echo -e 'ID\tTotal_reads\tReads_without_dups\tDuplication_rate\tUtil_reads\tPercentage_of_util_reads\tMean_depth_coverage\tDamaged_util_reads\tPercentage_of_Damaged_reads\tHeteroplamies\tHaplogrouop\tQuality\tPercentage_of_NCR_recovered\tRange_cov>10\tHaplotype' > final_table.txt
+echo -e 'ID\tTotal_reads\tDuplication_rate\tUtil_reads\tPercentage_of_util_reads\tMean_depth_coverage\tMean_mapping_quality\tDamaged_util_reads\tPercentage_of_Damaged_reads\tHeteroplamies_cov5\tHaplogrouop_cov5\tQuality_cov5\tPercentage_of_NCR_recovered_cov5\tRange_cov5\tHaplotype_cov5\tHeteroplamies_cov10\tHaplogrouop_cov10\tQuality_cov10\tPercentage_of_NCR_recovered_cov10\tRange_cov10\tHaplotype_cov10' > final_table.txt
 
 while read sample; do
-    echo "${sample}" | awk -v v0=${sample} -v v1=$(awk -v v1_1=${sample} '$1==v1_1 {print $2}' tem_all.txt) -v v2=$(awk -v v2_1=${sample} '$1==v2_1 {print $2}' tem_no_dups.txt) -v v3=$(awk -v v3_1=${sample} '$1==v3_1 {print $2}' tem_no_dups_utils.txt) -v v4=$(grep -v pmd tem_cov.txt | sed 's/.bam//g' | sed 's/final_//g' | awk -v v4_1=${sample} '$1==v4_1 {print $2}') -v v5=$(awk -v v5_1=${sample} '$1==v5_1 {print $2}' tem_no_dups_utils_pmd.txt) -v v6=$(awk -F"\t" -v v6_1=${sample} '$1 == v6_1 {print $0}' base_mix.txt | wc -l) -v v7=$(awk -v v7_1=\"${sample}\" '$1==v7_1 {print $2"\t"$4}' tem_haplos.txt | sed 's/"//g' | sed 's/\t/--/g') -v v8=$(cat tem_range.txt | sed 's/.bam//g' | sed 's/final_//g' | awk -v v8_1=${sample} '$1==v8_1 {print $2}') -v v9=$(awk -v v9_1=${sample} '$1==v9_1 {print $0}' tem_haplogrep_format.txt | cut -f 4- | sed 's/\t/__/g') '$1==v0 {print v0"\t"v1"\t"v2"\t"(1-v2/v1)*100"\t"v3"\t"v3/v1*100"\t"v4"\t"v5"\t"v5/v3*100"\t"v6"\t"v7"\t"v8"\t"v9}' | sed 's/--/\t/g' | sed 's/__/ /g' |  awk -F"\t" -v vn1=$(awk -v vn1_1=${sample} '$1==vn1_1 {print $2}' tem_goodcovinsamples.txt)  '{print $1"\t"$2"\t"$3"\t"$4"\t"$5"\t"$6"\t"$7"\t"$8"\t"$9"\t"$10"\t"$11"\t"$12"\t"100*vn1/1198"\t"$13"\t"$14}' | sed 's/16519T$//g' | sort -h >> final_table.txt
-done < temp_samples.txt
+	echo "${sample}" | awk -v v0=${sample} \
+	-v v1=$(awk -v v1_1=${sample} '$1==v1_1 {print $2}' tem_all.txt) \
+	-v v2=$(awk -v v2_1=${sample} '$1==v2_1 {print $2}' tem_dup_rate.txt) \
+	-v v3=$(awk -v v3_1=${sample} '$1==v3_1 {print $2}' tem_useful.txt) \
+	-v v4=$(awk -v v4_1=${sample} '$1==v4_1 {print $2}' tem_cov.txt) \
+	-v v5=$(awk -v v5_1=${sample} '$1==v5_1 {print $2}' tem_qual.txt) \
+	-v v6=$(awk -v v6_1=${sample} '$1==v6_1 {print $2}' tem_useful_pmd.txt) \
+	-v v7=$(awk -v v7_1=${sample} '$1==v7_1 {print $0}' base_mix_5.txt | wc -l) \
+	-v v8=$(awk -v v8_1=\"${sample}_5\" '$1==v8_1 {print $2"\t"$4}' tem_haplos.txt | sed 's/"//g' | sed 's/\t/--/g') \
+	-v v9=$(awk -v v9_1=${sample} '$1==v9_1 {print $2}' tem_goodcovinsamples_5.txt) \
+	-v v10=$(awk -v v10_1=${sample}_5 '$1==v10_1 {print $2}' tem_range_5.txt) \
+	-v v11=$(awk -v v11_1=${sample}_5 '$1==v11_1 {print $0}' tem_haplogrep_format.txt | cut -f 4- | sed 's/\t/__/g') \
+	-v v12=$(awk -v v12_1=${sample} '$1==v12_1 {print $0}' base_mix_10.txt | wc -l) \
+	-v v13=$(awk -v v13_1=\"${sample}_10\" '$1==v13_1 {print $2"\t"$4}' tem_haplos.txt | sed 's/"//g' | sed 's/\t/--/g') \
+	-v v14=$(awk -v v14_1=${sample} '$1==v14_1 {print $2}' tem_goodcovinsamples_10.txt) \
+	-v v15=$(awk -v v15_1=${sample}_10 '$1==v15_1 {print $2}' tem_range_10.txt) \
+	-v v16=$(awk -v v16_1=${sample}_10 '$1==v16_1 {print $0}' tem_haplogrep_format.txt | cut -f 4- | sed 's/\t/__/g') \
+	'$1==v0 {print v0"\t"v1"\t"v2"\t"v3"\t"v3/v1*100"\t"v4"\t"v5"\t"v6"\t"v6/v3*100"\t"v7"\t"v8"\t"100*v9/1198"\t"v10"\t"v11"\t"v12"\t"v13"\t"100*v14/1198"\t"v15"\t"v16}' \
+	| sed 's/--/\t/g' | sed 's/__/ /g' |  sed 's/16519T$//g' | sed 's/\t16519T\t/\t\t/g' |sed 's/,/\./g' | sort -h >> final_table.txt
+done < samples.txt
 
 rm *tem*.txt
+rm -r ${vis}
             
 echo "          
                 THE END
