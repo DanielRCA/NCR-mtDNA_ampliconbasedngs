@@ -56,7 +56,7 @@ NCR_ampliconbasedngs.sh, rCRS_NCR_lineal.fasta and range.py must be downloaded a
 ...
 
 > [!WARNING]
-> If any sample has the word '**tem**' in its name, some problems could appear since this combination of letters is used to name temporary files that would be removed at the end of the pipeline. If it is in capital letters (TEM), no problem should occur.
+> If any sample has the word '**tem**' in its name, some problems could appear since this combination of letters is used to name temporary files that would be removed at the end of the pipeline. If it is in capital letters '**TEM**', no problem should occur.
 
 #### Outputs
 
