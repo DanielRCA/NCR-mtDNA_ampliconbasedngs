@@ -21,7 +21,7 @@ The pipeline performs the following:
 
 ## Pre-requesites
 
-A group of tools must be pre-installed. For each tool, version used by our group is shown in brackets. We provide a file with a Conda's environment with all the tools already installed in order to make easier the installation (see [**Installation and usage**](#installation-and-usage)).
+A group of tools must be pre-installed. For each tool, version used by our group is shown in brackets. We provide a file with a Conda's environment with all the tools already installed in order to make easier the installation (see [**Installation and usage**](##installation-and-usage)).
 
 - FastQC (v0.11.9)
 - fastp (v0.23.2)
