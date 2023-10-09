@@ -23,7 +23,7 @@ The pipeline performs the following:
 
 A group of tools must be pre-installed. For each tool, version used by our group is shown in brackets. We provide a Conda enviroment file with all the versions indicated to make installation easier installation (see [Installation and usage](#installation-and-usage)).
 
-> [!WARNING]
+> [!IMPORTANT]
 > The use of other versions, especially  in the context of freebayes and VCF generation, could alter results.
 
 - FastQC (v0.11.9)
@@ -54,6 +54,9 @@ NCR_ampliconbasedngs.sh, rCRS_NCR_lineal.fasta and range.py must be downloaded a
 #### Inputs
 
 ...
+
+> [!WARNING]
+> If any sample has the word '**tem**' in its name, some problems could appear since this combination of letters is used to name temporary files that would be removed at the end of the pipeline. If it is in capital letters (TEM), no problem should occur.
 
 #### Outputs
 
