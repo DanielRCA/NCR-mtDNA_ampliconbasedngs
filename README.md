@@ -1,4 +1,8 @@
+<p align="centrer">
+
 # NCR-mtDNA_ampliconbasedngs
+
+</p>
 
 ## Introduction
 
