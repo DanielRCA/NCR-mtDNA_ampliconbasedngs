@@ -2,7 +2,7 @@
 
 ## Introduction
 
-DanielRCA/NCR-mtDNA_ampliconbasedngs is an easy-to-use bioinformatic tool to analyse the [Non-Coding Region](https://en.wikipedia.org/wiki/MtDNA_control_region) of ancient human mtDNA obtained by an amplicon-based Next Generation Sequencing method ([PowerSeq<sup>(TM)</sup> CRM Nested System kit](https://www.promega.es/products/forensic-dna-analysis-mps/target-amplification-and-library-prep/powerseq-crm-nested-system-custom/?catNum=AX5810), Promega Corporation).
+DanielRCA/NCR-mtDNA_ampliconbasedngs is an easy-to-use bioinformatic tool to analyse the [Non-Coding Region](https://en.wikipedia.org/wiki/MtDNA_control_region) of ancient human mtDNA obtained by an [amplicon](https://en.wikipedia.org/wiki/Amplicon)-based [Next Generation Sequencing](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC3841808/) method ([PowerSeq<sup>(TM)</sup> CRM Nested System kit](https://www.promega.es/products/forensic-dna-analysis-mps/target-amplification-and-library-prep/powerseq-crm-nested-system-custom/?catNum=AX5810), Promega Corporation).
 
 ## Pipeline Summary
 
@@ -21,7 +21,10 @@ The pipeline performs the following:
 
 ## Pre-requesites
 
-A group of tools must be pre-installed. For each tool, version used by our group is shown in brackets. We provide a file with a Conda's environment with all the tools already installed in order to make easier the installation (see [Installation and usage](#installation-and-usage)).
+A group of tools must be pre-installed. For each tool, version used by our group is shown in brackets. We provide a Conda enviroment file with all the versions indicated to make installation easier installation (see [Installation and usage](#installation-and-usage)).
+
+> [!WARNING]
+> The use of other versions, especially  in the context of freebayes and VCF generation, could alter results.
 
 - FastQC (v0.11.9)
 - fastp (v0.23.2)
@@ -33,16 +36,18 @@ A group of tools must be pre-installed. For each tool, version used by our group
 - vcflib (v1.0.3)
 - Haplogrep (v2.4.0)
 
-> [!WARNING]
-> The use of other versions, especially concerning freebayes and the VCF generation, could modify the results.
 
 ## Installation and usage
 
-You may need a [Linux Operating System](https://en.wikipedia.org/wiki/Linux). You should also have [Conda](https://docs.conda.io/projects/conda/en/stable/) installed, which can be done by following [Anaconda's User Guide](https://docs.conda.io/projects/conda/en/latest/user-guide/install/linux.html). If you are not accustomed to using Linux, we strongly recommend following [this tutorial](https://www.digitalocean.com/community/tutorials/how-to-install-the-anaconda-python-distribution-on-ubuntu-22-04) created in 2022 by Lisa Tagliaferri and Tony Tran.
+### Installation
 
-Once Anaconda has been installed, open the [Command-line interface](https://en.wikipedia.org/wiki/Command-line_interface#Command_prompt) by typing `command line`, `cmd`, or `prompt` into the search bar of your computer.
+You will need a [Linux Operating System](https://en.wikipedia.org/wiki/Linux). You must also have [Conda](https://docs.conda.io/projects/conda/en/stable/) installed, which can be done by following [Anaconda's User Guide](https://docs.conda.io/projects/conda/en/latest/user-guide/install/linux.html). If you are not accustomed to using Linux, we strongly recommend following [this tutorial](https://www.digitalocean.com/community/tutorials/how-to-install-the-anaconda-python-distribution-on-ubuntu-22-04) created in 2022 by Lisa Tagliaferri and Tony Tran.
+
+Once Anaconda has been installed, download .........................file and save it in a directory. This is the [Conda environement](https://docs.conda.io/projects/conda/en/latest/user-guide/concepts/environments.html) file. Next, open the [Command-line interface](https://en.wikipedia.org/wiki/Command-line_interface#Command_prompt) by typing `Ctrl+Alt+T` in the directory where you saved your Conda environment file. Alternatively, you can type `command line`, `cmd`, or `prompt` into the search bar of your computer and navigate to the directory where you save the Conda environment file using `cd` command. If you face problems opening the command-line, here is a [good tutorial](https://www.groovypost.com/howto/cant-open-terminal-in-ubuntu-fixes/).
 
 ...
+
+NCR_ampliconbasedngs.sh, rCRS_NCR_lineal.fasta and range.py must be downloaded and saved in a directory
 
 ### Inputs
 
