@@ -60,7 +60,7 @@ You can chanage the environment's name: `env_ncrngsamplicons`.
 
 ### Usage
 
-You have to be in the directory where you have all your input files and type on the prompt:
+You have to be in the directory where you have all your input files and type on the command-line:
   ```bash
   bash NCR_ampliconbasedngs.sh
   ```
