@@ -2,7 +2,7 @@
 
 ## Introduction
 
-DanielRCA/NCR-mtDNA_ampliconbasedngs is an easy-to-use bioinformatic tool to analyse the [Non-Coding Region](https://en.wikipedia.org/wiki/MtDNA_control_region) of ancient human mtDNA obtained by an amplicon-based Next Generation Sequencing method ([PowerSeq<sup>(R)</sup> CRM Nested System kit](https://www.promega.es/products/forensic-dna-analysis-mps/target-amplification-and-library-prep/powerseq-crm-nested-system-custom/?catNum=AX5810), Promega Corporation).
+DanielRCA/NCR-mtDNA_ampliconbasedngs is an easy-to-use bioinformatic tool to analyse the [Non-Coding Region](https://en.wikipedia.org/wiki/MtDNA_control_region) of ancient human mtDNA obtained by an amplicon-based Next Generation Sequencing method ([PowerSeq<sup>(TM)</sup> CRM Nested System kit](https://www.promega.es/products/forensic-dna-analysis-mps/target-amplification-and-library-prep/powerseq-crm-nested-system-custom/?catNum=AX5810), Promega Corporation).
 
 ## Pipeline Summary
 
@@ -21,7 +21,7 @@ The pipeline performs the following:
 
 ## Pre-requesites
 
-A group of tools must be pre-installed. For each tool, version used by our group is shown in brackets. The use of other versions could modify the results. We provide a file with a Conda's environment with all the tools already installed in order to make easier the installation (see **Installation and usage**).
+A group of tools must be pre-installed. For each tool, version used by our group is shown in brackets. We provide a file with a Conda's environment with all the tools already installed in order to make easier the installation (see [**Installation and usage**](#installation-and-usage)).
 
 - FastQC (v0.11.9)
 - fastp (v0.23.2)
@@ -33,6 +33,8 @@ A group of tools must be pre-installed. For each tool, version used by our group
 - vcflib (v1.0.3)
 - Haplogrep (v2.4.0)
 
+> [!WARNING]
+> The use of other versions, especially concerning freebayes and the VCF generation, could modify the results.
 
 ## Installation and usage
 
