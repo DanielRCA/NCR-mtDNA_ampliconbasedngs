@@ -71,11 +71,12 @@ We strongly recommend to save the information in a log file, so you can find whe
 
 #### Inputs
 
-Yoh have to save in the same directory:
+Yoh have to save the following in the same directory:
   1. [NCR_ampliconbasedngs.sh](https://github.com/DanielRCA/NCR-mtDNA_ampliconbasedngs/blob/main/NCR_ampliconbasedngs.sh): the pipeline itself
   2. [rCRS_NCR_lineal.fasta](https://github.com/DanielRCA/NCR-mtDNA_ampliconbasedngs/blob/main/rCRS_NCR_lineal.fast): the reference genome
-  3. [range.py](https://github.com/DanielRCA/NCR-mtDNA_ampliconbasedngs/blob/main/range.py): a python script to generate the ranges of positions
-  4. For each sample, one directotory with the name that matchs how you want the sample to be named. In each one of those directories should be 2 FastQ files (paired-end data)
+  3. [range.py](https://github.com/DanielRCA/NCR-mtDNA_ampliconbasedngs/blob/main/range.py): a Python script to generate positions ranges
+  4. Samples: each sample (2 FastQ files) should be stored in a separate directory, with the directory name matching how the sample is going to be named
+
 
 > [!WARNING]
 > If any sample has the word '**tem**' in its name, some problems could appear since this combination of letters is used to name temporary files that would be removed at the end of the pipeline. If it is in capital letters '**TEM**', no problem should occur.
