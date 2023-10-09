@@ -8,7 +8,7 @@ DanielRCA/NCR-mtDNA_ampliconbasedngs is an easy-to-use bioinformatic tool to ana
 
 The pipeline performs the following:
 
-* Reference genome indices creation for mapping (`bwa` and `samtools`)
+1 Reference genome indices creation for mapping (`bwa` and `samtools`)
 * Sequencing quality control (`FastQC`)
 * Sequencing adapter removal, duplicates removal, primers removal, paired-end data merging, Illumina two-coloured sequencer poly-G tail removal, post-adapter-removal trimmnig of FASTQ files prior mapping (`fastp`)
 * Read mapping to reference (`bwa aln` and `bwa sampe`)
