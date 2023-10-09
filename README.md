@@ -60,11 +60,19 @@ You can chanage the environment's name: `env_ncrngsamplicons`.
 
 ### Usage
 
-...
-
-NCR_ampliconbasedngs.sh, rCRS_NCR_lineal.fasta and range.py must be downloaded and saved in a directory
+You have to be in the directory where you have all your input files and type on the prompt:
+  ```bash
+  bash NCR_ampliconbasedngs.sh
+  ```
+We strongly recommend to save the information in a log file, so you can find where the possible mistake is (time will give you how much time the script was running and can ve avoid). Type as follow:
+```bash
+  time bash NCR_ampliconbasedngs.sh 2>&1 | tee NCR_ampliconbasedngs.log
+  ```
 
 #### Inputs
+
+
+NCR_ampliconbasedngs.sh, rCRS_NCR_lineal.fasta and range.py must be downloaded and saved in a directory
 
 ...
 
