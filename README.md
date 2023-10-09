@@ -36,7 +36,7 @@ A group of tools must be pre-installed. For each tool, version used by our group
 > [!WARNING]
 > The use of other versions, especially concerning freebayes and the VCF generation, could modify the results.
 
-## Installation and usage
+##Installation and usage
 
 You may need a [Linux Operating System](https://en.wikipedia.org/wiki/Linux). You should also have [Conda](https://docs.conda.io/projects/conda/en/stable/) installed, which can be done by following [Anaconda's User Guide](https://docs.conda.io/projects/conda/en/latest/user-guide/install/linux.html). If you are not accustomed to using Linux, we strongly recommend following [this tutorial](https://www.digitalocean.com/community/tutorials/how-to-install-the-anaconda-python-distribution-on-ubuntu-22-04) created in 2022 by Lisa Tagliaferri and Tony Tran.
 
