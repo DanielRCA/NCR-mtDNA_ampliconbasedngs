@@ -45,9 +45,11 @@ You will need a [Linux Operating System](https://en.wikipedia.org/wiki/Linux). Y
 Once Anaconda has been installed, download .........................file and save it in a directory. This is the [Conda environement](https://docs.conda.io/projects/conda/en/latest/user-guide/concepts/environments.html) file. Next, open the [Command-line interface](https://en.wikipedia.org/wiki/Command-line_interface#Command_prompt) by typing `Ctrl+Alt+T` in the directory where you saved your Conda environment file. Alternatively, you can type `command line`, `cmd`, or `prompt` into the search bar of your computer and navigate to the directory where you save the Conda environment file using `cd` command. If you face problems opening the command-line, here is a [good tutorial](https://www.groovypost.com/howto/cant-open-terminal-in-ubuntu-fixes/).
 
 Install the environment with the command:
-  conda create --name env_ncrngsamplicons --file Conda_Environment_File_NCR-mtDNA_ngsamplicon.txt
+
+conda create --name env_ncrngsamplicons --file Conda_Environment_File_NCR-mtDNA_ngsamplicon.txt
 You can open the environment you have just created with the command:
- conda activate env_ncrngsamplicons
+  
+  conda activate env_ncrngsamplicons
 
 You can chanage the environment's name `env_ncrngsamplicons`.
 
