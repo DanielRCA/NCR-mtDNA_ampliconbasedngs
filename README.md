@@ -8,15 +8,15 @@ DanielRCA/NCR-mtDNA_ampliconbasedngs is an easy-to-use bioinformatic tool to ana
 
 The pipeline performs the following:
 
-1 Reference genome indices creation for mapping (`bwa` and `samtools`)
-* Sequencing quality control (`FastQC`)
-* Sequencing adapter removal, duplicates removal, primers removal, paired-end data merging, Illumina two-coloured sequencer poly-G tail removal, post-adapter-removal trimmnig of FASTQ files prior mapping (`fastp`)
-* Read mapping to reference (`bwa aln` and `bwa sampe`)
-* Post-mapping processing, statistics and conversion to bam (`samtools`)
-* Damaged reads extraction (`PMDtools`)
-* Post-mapping statistics and BAM quality control (`Qualimap`)
-* Creation of VCF genotyping files (`freebayes` and `vcflib`)
-* Haplogroup determination (`HaploGrep2`)
+1. Reference genome indices creation for mapping (`bwa` and `samtools`)
+2. Sequencing quality control (`FastQC`)
+3. Sequencing adapter removal, duplicates removal, primers removal, paired-end data merging, Illumina two-coloured sequencer poly-G tail removal, post-adapter-removal trimmnig of FASTQ files prior mapping (`fastp`)
+4. Read mapping to reference (`bwa aln` and `bwa sampe`)
+5. Post-mapping processing, statistics and conversion to bam (`samtools`)
+6. Damaged reads extraction (`PMDtools`)
+7. Post-mapping statistics and BAM quality control (`Qualimap`)
+8. Creation of VCF genotyping files (`freebayes` and `vcflib`)
+9. Haplogroup determination (`HaploGrep2`)
 
 
 ## Pre-requesites
