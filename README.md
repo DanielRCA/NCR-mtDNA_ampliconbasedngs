@@ -2,7 +2,7 @@
 
 ## Introduction
 
-DanielRCA/NCR-mtDNA_ampliconbasedngs is an easy-to-use bioinformatic tool to analyse the Non-Coding Region of ancient human mtDNA obtained by an amplicon-based Next Generation Sequencing method (PowerSeqTM CRM Nested System kit, Promega Corporation).
+DanielRCA/NCR-mtDNA_ampliconbasedngs is an easy-to-use bioinformatic tool to analyse the [Non-Coding Region](https://en.wikipedia.org/wiki/MtDNA_control_region) of ancient human mtDNA obtained by an amplicon-based Next Generation Sequencing method ([PowerSeq<sup>(R)</sup> CRM Nested System kit](https://www.promega.es/products/forensic-dna-analysis-mps/target-amplification-and-library-prep/powerseq-crm-nested-system-custom/?catNum=AX5810), Promega Corporation).
 
 ## Pipeline Summary
 
