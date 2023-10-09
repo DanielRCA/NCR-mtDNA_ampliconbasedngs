@@ -35,7 +35,7 @@ A group of tools must be pre-installed. For each tool, version used by our group
 
 ## Installation and usage
 
-You may need a Unix OS and you should have [Conda] (https://docs.conda.io/projects/conda/en/stable/) by installing **Anaconda** follwong the [User guide] (https://docs.conda.io/projects/conda/en/latest/user-guide/install/linux.html). If you are not use to Linux, we strongly recommend follow [this tutorial] (https://www.digitalocean.com/community/tutorials/how-to-install-the-anaconda-python-distribution-on-ubuntu-22-04) created in 2022 by Lisa Tagliaferri and Tony Tran.
+You may need a Unix OS and you should have [Conda](https://docs.conda.io/projects/conda/en/stable/) by installing **Anaconda** follwong the [User guide](https://docs.conda.io/projects/conda/en/latest/user-guide/install/linux.html). If you are not use to Linux, we strongly recommend follow [this tutorial](https://www.digitalocean.com/community/tutorials/how-to-install-the-anaconda-python-distribution-on-ubuntu-22-04) created in 2022 by Lisa Tagliaferri and Tony Tran.
 
 ### Inputs
 
