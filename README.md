@@ -45,15 +45,17 @@ You will need a [Linux Operating System](https://en.wikipedia.org/wiki/Linux). Y
 
 Once Anaconda has been installed, download .........................file and save it in a directory. This is the [Conda environement](https://docs.conda.io/projects/conda/en/latest/user-guide/concepts/environments.html) file. Next, open the [Command-line interface](https://en.wikipedia.org/wiki/Command-line_interface#Command_prompt) by typing `Ctrl+Alt+T` in the directory where you saved your Conda environment file. Alternatively, you can type `command line`, `cmd`, or `prompt` into the search bar of your computer and navigate to the directory where you save the Conda environment file using `cd` command. If you face problems opening the command-line, here is a [good tutorial](https://www.groovypost.com/howto/cant-open-terminal-in-ubuntu-fixes/).
 
+### Usage
+
 ...
 
 NCR_ampliconbasedngs.sh, rCRS_NCR_lineal.fasta and range.py must be downloaded and saved in a directory
 
-### Inputs
+#### Inputs
 
 ...
 
-### Outputs
+#### Outputs
 
 Once the indices for the reference genome are created, they will be saved so that they do not have to be created each time.
 
