@@ -4,9 +4,6 @@
 
 DanielRCA/NCR-mtDNA_ampliconbasedngs is an easy-to-use bioinformatic tool to analyse the Non-Coding Region of ancient human mtDNA obtained by an amplicon-based Next Generation Sequencing method (PowerSeqTM CRM Nested System kit, Promega Corporation).
 
-![pipeline drawio](https://github.com/DanielRCA/NCR-mtDNA_ampliconbasedngs/assets/97441691/a9366d58-d987-4771-a6ed-ea2622bc18cb)
-
-
 ## Pipeline Summary
 
 The pipeline performs the following:
@@ -20,6 +17,7 @@ The pipeline performs the following:
 * Post-mapping statistics and BAM quality control (`Qualimap`)
 * Creation of VCF genotyping files (`freebayes` and `vcflib`)
 * Haplogroup determination (`HaploGrep2`)
+
 
 ## Pre-requesites
 
@@ -38,12 +36,27 @@ A group of tools must be pre-installed. For each tool, version used by our group
 
 ## Installation and usage
 
-You may need a [Linux Operating System](https://en.wikipedia.org/wiki/Linux). You should also have [Conda](https://docs.conda.io/projects/conda/en/stable/) by installing **Anaconda** follwing the [User guide](https://docs.conda.io/projects/conda/en/latest/user-guide/install/linux.html). If you are not use to Linux, we strongly recommend follow [this tutorial](https://www.digitalocean.com/community/tutorials/how-to-install-the-anaconda-python-distribution-on-ubuntu-22-04) created in 2022 by Lisa Tagliaferri and Tony Tran.
+You may need a [Linux Operating System](https://en.wikipedia.org/wiki/Linux). You should also have [Conda](https://docs.conda.io/projects/conda/en/stable/) installed, which can be done by following [Anaconda's User Guide](https://docs.conda.io/projects/conda/en/latest/user-guide/install/linux.html). If you are not accustomed to using Linux, we strongly recommend following [this tutorial](https://www.digitalocean.com/community/tutorials/how-to-install-the-anaconda-python-distribution-on-ubuntu-22-04) created in 2022 by Lisa Tagliaferri and Tony Tran.
+
+Once Anaconda has been installed, open the [Command-line interface](https://en.wikipedia.org/wiki/Command-line_interface#Command_prompt) by typing `command line`, `cmd`, or `prompt` into the search bar of your computer.
+
+...
 
 ### Inputs
 
+...
 
 ### Outputs
+
+Once the indices for the reference genome are created, they will be saved so that they do not have to be created each time.
+
+Several outputs are generated:
+
+ - A table containing the following information: ID, number of initial reads, duplication rate, number of useful reads, percentage of useful reads, mean depth coverage, mean mapping quality, number of useful damaged reads, percentage of damaged reads, number of mixed bases, haplogroup, haplogroup quality, range of positions and haplotype, all for depth coverage ≥ 5 and depth coverage ≥ 10.
+ - An HSD file to upload to Haplogrep3, wich provides more specific information not available through local analysis. This file contains all the information for both all reads and only reads with post-mortem molecular damage extracted by PMDtools for depth coverage ≥ 5 and ≥ 10.
+ - Two TXT files, one for each depth coverage analysed, containing information on the mixed bases (sample, position, alternative base, depth coverage of the position, number of appearances of the alternative base, and percentage of the alternative base). A base only will appear if the percentage of mixture is between 30 and 70%.
+  
+![pipeline drawio](https://github.com/DanielRCA/NCR-mtDNA_ampliconbasedngs/assets/97441691/a9366d58-d987-4771-a6ed-ea2622bc18cb)
 
 ## Citations
 
