@@ -1,8 +1,10 @@
 # NCR-mtDNA_ampliconbasedngs
 
+
 ## Introduction
 
 DanielRCA/NCR-mtDNA_ampliconbasedngs is an easy-to-use bioinformatic tool to analyse the [Non-Coding Region](https://en.wikipedia.org/wiki/MtDNA_control_region) of ancient human mtDNA obtained by an [amplicon](https://en.wikipedia.org/wiki/Amplicon)-based [Next Generation Sequencing](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC3841808/) method ([PowerSeq<sup>(TM)</sup> CRM Nested System kit](https://www.promega.es/products/forensic-dna-analysis-mps/target-amplification-and-library-prep/powerseq-crm-nested-system-custom/?catNum=AX5810), Promega Corporation).
+
 
 ## Pipeline Summary
 
@@ -36,7 +38,9 @@ A group of tools must be pre-installed. For each tool, version used by our group
 > [!IMPORTANT]
 > The use of other versions, especially  in the context of freebayes and VCF generation, could alter results.
 
+
 ## Installation and usage
+
 
 ### Installation
 
@@ -58,6 +62,7 @@ And close it typing:
   ````
 You can chanage the environment's name: `env_ncrngsamplicons`.
 
+
 ### Usage
 
 You have to be in the directory where you have all your input files and type on the command-line:
@@ -68,6 +73,7 @@ We strongly recommend to save the information in a log file, so you can find whe
 ```bash
   time bash NCR_ampliconbasedngs.sh 2>&1 | tee NCR_ampliconbasedngs.log
   ```
+
 
 #### Inputs
 
@@ -81,6 +87,7 @@ Yoh have to save the following in the same directory:
 > [!WARNING]
 > If any sample has the word '**tem**' in its name, some problems could appear since this combination of letters is used to name temporary files that would be removed at the end of the pipeline. If it is in capital letters '**TEM**', no problem should occur.
 
+
 #### Outputs
 
 Once the indices for the reference genome are created, they will be saved so that they do not have to be created each time.
@@ -92,6 +99,7 @@ Several outputs are generated in the same directory where all the scripts are st
  - Two TXT files, one for each depth coverage analysed (≥ 5 and ≥ 10), containing information on the mixed bases (sample, position, alternative base, depth coverage of the position, number of appearances of the alternative base, and percentage of the alternative base). A base only will appear if the percentage of mixture is between 30 and 70%.
   
 ![pipeline drawio](https://github.com/DanielRCA/NCR-mtDNA_ampliconbasedngs/assets/97441691/a9366d58-d987-4771-a6ed-ea2622bc18cb)
+
 
 ## Citations
 
