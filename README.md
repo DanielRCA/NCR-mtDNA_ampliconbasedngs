@@ -64,7 +64,7 @@ You have to be in the directory where you have all your input files and type on 
   ```bash
   bash NCR_ampliconbasedngs.sh
   ```
-We strongly recommend to save the information in a log file, so you can find where the possible mistake is (time will give you how much time the script was running and can ve avoid). Type as follow:
+We strongly recommend to save the information in a log file, so you can find where the possible mistake is (`time` parameter will give you how much time was the script running and it can be removed). Type as follow:
 ```bash
   time bash NCR_ampliconbasedngs.sh 2>&1 | tee NCR_ampliconbasedngs.log
   ```
@@ -89,7 +89,7 @@ Several outputs are generated in the same directory where all the scripts are st
 
  - A table containing the following information: ID, number of initial reads, duplication rate, number of useful reads, percentage of useful reads, mean depth coverage, mean mapping quality, number of useful damaged reads, percentage of damaged reads, number of mixed bases, haplogroup, haplogroup quality, range of positions and haplotype, all for depth coverage ≥ 5 and depth coverage ≥ 10.
  - An HSD file to upload to Haplogrep3, wich provides more specific information not available through local analysis. This file contains all the information for both all reads and only reads with post-mortem molecular damage extracted by PMDtools for depth coverage ≥ 5 and ≥ 10.
- - Two TXT files, one for each depth coverage analysed, containing information on the mixed bases (sample, position, alternative base, depth coverage of the position, number of appearances of the alternative base, and percentage of the alternative base). A base only will appear if the percentage of mixture is between 30 and 70%.
+ - Two TXT files, one for each depth coverage analysed (≥ 5 and ≥ 10), containing information on the mixed bases (sample, position, alternative base, depth coverage of the position, number of appearances of the alternative base, and percentage of the alternative base). A base only will appear if the percentage of mixture is between 30 and 70%.
   
 ![pipeline drawio](https://github.com/DanielRCA/NCR-mtDNA_ampliconbasedngs/assets/97441691/a9366d58-d987-4771-a6ed-ea2622bc18cb)
 
