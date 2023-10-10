@@ -74,8 +74,8 @@ We strongly recommend to save the information in a log file, so you can find whe
   time bash NCR_ampliconbasedngs.sh 2>&1 | tee NCR_ampliconbasedngs.log
   ```
 
-
-You can try it with the samples we upload to the **test** directory. Remember that the samples should be in the same directory as the [input files](#inputs).
+> [!NOTE]
+> You can try it with the samples we upload to the **test** directory. Remember that the samples should be in the same directory as the [input files](#inputs).
 
 
 #### Inputs
