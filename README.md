@@ -88,7 +88,7 @@ Yoh have to save the following in the same directory:
 
 
 > [!WARNING]
-> If any sample has the word '**tem**' in its name, some problems could appear since this combination of letters is used to name temporary files that would be removed at the end of the pipeline. If it is in capital letters '**TEM**', no problem should occur.
+> If a sample's name contains the word '**tem**' in lowercase, there may be issues because this combination of letters is used to name temporary files that are deleted throughout the pipeline. If the word is in uppercase as '**TEM**', no problems should arise.
 
 
 #### Outputs
