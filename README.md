@@ -1,4 +1,4 @@
-# NCR-mtDNA_ampliconbasedngs
+![pipeline](https://github.com/DanielRCA/NCR-mtDNA_ampliconbasedngs/assets/97441691/b2763f99-3ee1-4f75-8783-58673bd04164)# NCR-mtDNA_ampliconbasedngs
 
 
 ## Introduction
@@ -12,7 +12,7 @@ The pipeline performs the following:
 
 1. Reference genome indices creation for mapping (`bwa` and `samtools`)
 2. Sequencing quality control (`FastQC`)
-3. Sequencing adapter removal, duplicates removal, primers removal, paired-end data merging, Illumina two-coloured sequencer poly-G tail removal, post-adapter-removal trimmnig of FASTQ files prior mapping (`fastp`)
+3. Sequencing adapter removal, duplicates removal, primers removal, paired-end data merging, Illumina two-coloured sequencer poly-G tail removal, post-adapter-removal trimming of FASTQ files prior mapping (`fastp`)
 4. Read mapping to reference (`bwa aln` and `bwa sampe`)
 5. Post-mapping processing, statistics and conversion to bam (`samtools`)
 6. Damaged reads extraction (`PMDtools`)
@@ -23,7 +23,7 @@ The pipeline performs the following:
 
 ## Pre-requesites
 
-A group of tools must be pre-installed. For each tool, version used by our group is shown in brackets. We provide a Conda enviroment file with all the versions indicated to make installation easier installation (see [Installation and usage](#installation-and-usage)).
+A group of tools must be pre-installed. For each tool, version used by our group is shown in brackets. We provide a Conda enviroment file with all the versions indicated. To make installation easier (see [Installation and usage](#installation-and-usage)).
 
 - FastQC (v0.11.9)
 - fastp (v0.23.2)
@@ -60,7 +60,10 @@ And close it typing:
   ```bash
   conda deactivate
   ````
-You can chanage the environment's name: `env_ncrngsamplicons`.
+You can change the environment's name in the "conda create" command when creating it:
+  ```bash
+  conda create --name name_environment --file Conda_Environment_File_NCR-mtDNA_ngsamplicon.txt
+  ````
 
 
 ### Usage
@@ -98,10 +101,10 @@ Once the indices for the reference genome are created, they will be saved so tha
 Several outputs are generated in the same directory where all the scripts are stored:
 
  - A table containing the following information: ID, number of initial reads, duplication rate, number of useful reads, percentage of useful reads, mean depth coverage, mean mapping quality, number of useful damaged reads, percentage of damaged reads, number of mixed bases, haplogroup, haplogroup quality, range of positions and haplotype, all for depth coverage ≥ 5 and depth coverage ≥ 10.
- - An HSD file to upload to Haplogrep3, wich provides more specific information not available through local analysis. This file contains all the information for both all reads and only reads with post-mortem molecular damage extracted by PMDtools for depth coverage ≥ 5 and ≥ 10.
+ - An HSD file called "haplogrep_format.txt" to upload to [Haplogrep3](https://haplogrep.i-med.ac.at/), wich provides more specific information not available through local analysis. This file contains all the information for both all reads and only reads with post-mortem molecular damage extracted by PMDtools for depth coverage ≥ 5 and ≥ 10.
  - Two TXT files, one for each depth coverage analysed (≥ 5 and ≥ 10), containing information on the mixed bases (sample, position, alternative base, depth coverage of the position, number of appearances of the alternative base, and percentage of the alternative base). A base only will appear if the percentage of mixture is between 30 and 70%.
-  
-![pipeline drawio](https://github.com/DanielRCA/NCR-mtDNA_ampliconbasedngs/assets/97441691/a9366d58-d987-4771-a6ed-ea2622bc18cb)
+
+![pipeline](https://github.com/DanielRCA/NCR-mtDNA_ampliconbasedngs/assets/97441691/62983384-8d23-47a6-90b5-74f56d284227)
 
 
 ## Citations
