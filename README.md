@@ -1,4 +1,4 @@
-![pipeline](https://github.com/DanielRCA/NCR-mtDNA_ampliconbasedngs/assets/97441691/b2763f99-3ee1-4f75-8783-58673bd04164)# NCR-mtDNA_ampliconbasedngs
+# NCR-mtDNA_ampliconbasedngs
 
 
 ## Introduction
