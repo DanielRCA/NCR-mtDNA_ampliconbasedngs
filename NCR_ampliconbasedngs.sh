@@ -2,6 +2,15 @@
 
 ## time bash NCR_ampliconbasedngs.sh 2>&1 | tee NCR_ampliconbasedngs.log
 
+for fastq_file in *.fastq.gz; do
+	sample="${fastq_file//_S*/}"
+	if [[ -d ${sample} ]]; then
+		mv ${fastq_file} ${sample}
+    else
+		mkdir ${sample}
+        mv ${fastq_file} ${sample}
+    fi
+done
 
 source activate env_ncrngsamplicons
 
