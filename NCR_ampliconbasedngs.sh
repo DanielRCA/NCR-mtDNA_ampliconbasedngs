@@ -6,15 +6,17 @@ depthcov=10
 freq=0.3
 minaltcount=3
 
-for fastq_file in *.fastq.gz; do
-	sample="${fastq_file//_S*/}"
-	if [[ -d ${sample} ]]; then
-		mv ${fastq_file} ${sample}
-    else
-		mkdir ${sample}
-        mv ${fastq_file} ${sample}
-    fi
-done
+if [[ -f *.fastq ]]; then
+	for fastq_file in *.fastq.gz; do
+		sample="${fastq_file//_S*/}"
+		if [[ -d ${sample} ]]; then
+			mv ${fastq_file} ${sample}
+	    else
+			mkdir ${sample}
+	        mv ${fastq_file} ${sample}
+	    fi
+	done
+fi
 
 source activate env_ncrngsamplicons
 
@@ -275,7 +277,7 @@ while read sample; do
 	-v v4=$(awk -v v4_1=${sample} '$1==v4_1 {print $2}' tem_cov.txt) \
 	-v v5=$(awk -v v5_1=${sample} '$1==v5_1 {print $2}' tem_qual.txt) \
 	-v v6=$(awk -v v6_1=${sample} '$1==v6_1 {print $2}' tem_useful_pmd.txt) \
-	-v v7=$(awk -v v7_1=${sample} '$1==v7_1 {print $0}' base_mix_cov_${depthcov}.txt | wc -l) \
+	-v v7=$(awk -v v7_1=${sample} '$1==v7_1 {print $0}' base_mix_depthcov_${depthcov}.txt | wc -l) \
 	-v v8=$(awk -v v8_1=\"${sample}_5\" '$1==v8_1 {print $2"\t"$4}' tem_haplos.txt | sed 's/"//g' | sed 's/\t/--/g') \
 	-v v9=$(awk -v v9_1=${sample} '$1==v9_1 {print $2}' tem_goodcovinsamples_${depthcov}.txt) \
 	-v v10=$(awk -v v10_1=${sample}_5 '$1==v10_1 {print $2}' tem_range_${depthcov}.txt) \
