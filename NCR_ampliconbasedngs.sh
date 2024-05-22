@@ -205,7 +205,7 @@ while read sample; do
 	awk '$3 == "." && length($5) == 1 && length($4) == 1 {print $2"\t"$4"\t"$5"\t"$10}' ${pam}_${depthcov}.vcf | sed 's/:/\t/g' | awk '{print $1"\t"$2"\t"$3"\t"$5"\t"$6"\t"100*$9/$5}' | awk '{if ($6 < 70) print $1"\t"$2$3; else print $1"\t"$3;}' | sed 's/[AGTC]\{4\}/N/g' | sed 's/[ACG]\{3\}/V/g' |sed 's/[ATC]\{3\}/H/g' | sed 's/[ATG]\{3\}/D/g' | sed 's/[GTC]\{3\}/B/g' | sed 's/[AC]\{2\}/M/g' | sed 's/[TG]\{2\}/K/g' | sed 's/[AT]\{2\}/W/g' | sed 's/[GC]\{2\}/S/g' | sed 's/[TC]\{2\}/Y/g' | sed 's/[AG]\{2\}/R/g' | awk '{if ($1<670) print $1+15900$2; else print $1-669$2}' | sed -e 's/\t$//g' | awk -F"\t" '$1 < 303 || $1 > 315 {print $1$2}' > ${pam}_${depthcov}.txt
 		
 	#Documents with mixtures are done for all reads
- 	awk '$3 == "." && length($4) == 1 && length($5) == 1 {if ($2<670) print $2+15900"\t"$5"\t"$10; else print $2-669"\t"$5"\t"$10}' ${bam}_${depthcov}.vcf | awk  '$1 < 303 || $1 > 315 {print $0}' | sed 's/:/\t/g' | awk '{print $1"\t"$2"\t"$4"\t"$8"\t"100*$8/$4"\t"}' | awk -v vd=${sample} '$5 < 70 {print vd"\t"$0}' >> ${main_dir}/base_mix_cov_${depthcov}.txt
+ 	awk '$3 == "." && length($4) == 1 && length($5) == 1 {if ($2<670) print $2+15900"\t"$5"\t"$10; else print $2-669"\t"$5"\t"$10}' ${bam}_${depthcov}.vcf | awk  '$1 < 303 || $1 > 315 {print $0}' | sed 's/:/\t/g' | awk '{print $1"\t"$2"\t"$4"\t"$8"\t"100*$8/$4"\t"}' | awk -v vd=${sample} '$5 < 70 {print vd"\t"$0}' >> ${main_dir}/base_mix_depthcov-${depthcov}.txt
  
     
     cp ${bam}_*.txt ${main_dir}/${vis}
