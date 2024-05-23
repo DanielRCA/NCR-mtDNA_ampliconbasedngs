@@ -2,8 +2,13 @@
 
 ## time bash NCR_ampliconbasedngs.sh 2>&1 | tee NCR_ampliconbasedngs.log
 
+
+## Chose the following values
+# Minimum depth coverage
 depthcov=10
+# Minimum allele frequency to consider a mixture
 freq=0.3
+# Minimum amount of alternative alleles to be included
 minaltcount=3
 
 if [[ -f *.fastq ]]; then
@@ -182,7 +187,7 @@ while read sample; do
     Ranges of positions are being determined...
     "
 	
- 	#Depth coverage over DEPTHCOVX in file with all reads
+ 	#Depth coverage over chosen value in file with all reads
 	samtools depth ${bam} | awk -v DEPTHCOV=${depthcov} '$3>=DEPTHCOV {print $2}' |  awk '{if ($1<670) print $1+15900; else print $1-669}' | awk  '$1 < 303 || $1 > 315 {print $1}' | sort -n > temp.txt
 	range=$(python ${main_dir}/range.py temp.txt | sed "s/[',\[\)\( ]//g" | sed "s/]//g" | sed "s/;$//")
 	echo "${sample}_${depthcov} ${range}" >> ${main_dir}/tem_range_${depthcov}.txt
@@ -200,18 +205,19 @@ while read sample; do
     Starting the variant call
     "
 	#All reads, chosen depth coverage
+	maxdepthcov=$(echo "100-(${freq}*100)" | bc)
 	freebayes -f ${NCR} -i -X -F ${freq} -C ${minaltcount} --min-coverage ${depthcov} ${bam} | vcfallelicprimitives -kg > ${bam}_${depthcov}.vcf 
-	awk '$3 == "." && length($5) == 1 && length($4) == 1 {print $2"\t"$4"\t"$5"\t"$10}' ${bam}_${depthcov}.vcf | sed 's/:/\t/g' | awk '{print $1"\t"$2"\t"$3"\t"$5"\t"$6"\t"100*$9/$5}' | awk '{if ($6 < 70) print $1"\t"$2$3; else print $1"\t"$3;}' |  sed 's/,.*//' | sed 's/[AGTC]\{4\}/N/g' | sed 's/[ACG]\{3\}/V/g' |sed 's/[ATC]\{3\}/H/g' | sed 's/[ATG]\{3\}/D/g' | sed 's/[GTC]\{3\}/B/g' | sed 's/[AC]\{2\}/M/g' | sed 's/[TG]\{2\}/K/g' | sed 's/[AT]\{2\}/W/g' | sed 's/[GC]\{2\}/S/g' | sed 's/[TC]\{2\}/Y/g' | sed 's/[AG]\{2\}/R/g' | awk '{if ($1<670) print $1+15900$2; else print $1-669$2}' |   sed -e 's/\t$//g' | awk -F"\t" '$1 < 303 || $1 > 315 {print $1$2}' > ${bam}_${depthcov}.txt
+	awk '$3 == "." && length($5) == 1 && length($4) == 1 {print $2"\t"$4"\t"$5"\t"$10}' ${bam}_${depthcov}.vcf | sed 's/:/\t/g' | awk '{print $1"\t"$2"\t"$3"\t"$5"\t"$6"\t"100*$9/$5}' | awk -v MAXDEPTHCOV=${maxdepthcov} '{if ($6 < MAXDEPTHCOV) print $1"\t"$2$3; else print $1"\t"$3;}' |  sed 's/,.*//' | sed 's/[AGTC]\{4\}/N/g' | sed 's/[ACG]\{3\}/V/g' |sed 's/[ATC]\{3\}/H/g' | sed 's/[ATG]\{3\}/D/g' | sed 's/[GTC]\{3\}/B/g' | sed 's/[AC]\{2\}/M/g' | sed 's/[TG]\{2\}/K/g' | sed 's/[AT]\{2\}/W/g' | sed 's/[GC]\{2\}/S/g' | sed 's/[TC]\{2\}/Y/g' | sed 's/[AG]\{2\}/R/g' | awk '{if ($1<670) print $1+15900$2; else print $1-669$2}' |   sed -e 's/\t$//g' | awk -F"\t" '$1 < 303 || $1 > 315 {print $1$2}' > ${bam}_${depthcov}.txt
 	#Damaged reads, chosen depth coverage
 	freebayes -f ${NCR} -i -X -F ${freq} -C ${minaltcount} --min-coverage ${depthcov} ${pam} | vcfallelicprimitives -kg > ${pam}_${depthcov}.vcf
-	awk '$3 == "." && length($5) == 1 && length($4) == 1 {print $2"\t"$4"\t"$5"\t"$10}' ${pam}_${depthcov}.vcf | sed 's/:/\t/g' | awk '{print $1"\t"$2"\t"$3"\t"$5"\t"$6"\t"100*$9/$5}' | awk '{if ($6 < 70) print $1"\t"$2$3; else print $1"\t"$3;}' | sed 's/[AGTC]\{4\}/N/g' | sed 's/[ACG]\{3\}/V/g' |sed 's/[ATC]\{3\}/H/g' | sed 's/[ATG]\{3\}/D/g' | sed 's/[GTC]\{3\}/B/g' | sed 's/[AC]\{2\}/M/g' | sed 's/[TG]\{2\}/K/g' | sed 's/[AT]\{2\}/W/g' | sed 's/[GC]\{2\}/S/g' | sed 's/[TC]\{2\}/Y/g' | sed 's/[AG]\{2\}/R/g' | awk '{if ($1<670) print $1+15900$2; else print $1-669$2}' | sed -e 's/\t$//g' | awk -F"\t" '$1 < 303 || $1 > 315 {print $1$2}' > ${pam}_${depthcov}.txt
+	awk '$3 == "." && length($5) == 1 && length($4) == 1 {print $2"\t"$4"\t"$5"\t"$10}' ${pam}_${depthcov}.vcf | sed 's/:/\t/g' | awk '{print $1"\t"$2"\t"$3"\t"$5"\t"$6"\t"100*$9/$5}' | awk -v MAXDEPTHCOV=${maxdepthcov} '{if ($6 < MAXDEPTHCOV) print $1"\t"$2$3; else print $1"\t"$3;}' | sed 's/[AGTC]\{4\}/N/g' | sed 's/[ACG]\{3\}/V/g' |sed 's/[ATC]\{3\}/H/g' | sed 's/[ATG]\{3\}/D/g' | sed 's/[GTC]\{3\}/B/g' | sed 's/[AC]\{2\}/M/g' | sed 's/[TG]\{2\}/K/g' | sed 's/[AT]\{2\}/W/g' | sed 's/[GC]\{2\}/S/g' | sed 's/[TC]\{2\}/Y/g' | sed 's/[AG]\{2\}/R/g' | awk '{if ($1<670) print $1+15900$2; else print $1-669$2}' | sed -e 's/\t$//g' | awk -F"\t" '$1 < 303 || $1 > 315 {print $1$2}' > ${pam}_${depthcov}.txt
 		
 	#Documents with mixtures are done for all reads
- 	awk '$3 == "." && length($4) == 1 && length($5) == 1 {if ($2<670) print $2+15900"\t"$5"\t"$10; else print $2-669"\t"$5"\t"$10}' ${bam}_${depthcov}.vcf | awk  '$1 < 303 || $1 > 315 {print $0}' | sed 's/:/\t/g' | awk '{print $1"\t"$2"\t"$4"\t"$8"\t"100*$8/$4"\t"}' | awk -v vd=${sample} '$5 < 70 {print vd"\t"$0}' >> ${main_dir}/base_mix_depthcov-${depthcov}.txt
+ 	awk '$3 == "." && length($4) == 1 && length($5) == 1 {if ($2<670) print $2+15900"\t"$5"\t"$10; else print $2-669"\t"$5"\t"$10}' ${bam}_${depthcov}.vcf | awk  '$1 < 303 || $1 > 315 {print $0}' | sed 's/:/\t/g' | awk '{print $1"\t"$2"\t"$4"\t"$8"\t"100*$8/$4"\t"}' | awk -v vd=${sample} -v MAXDEPTHCOV=${maxdepthcov} '$5 < MAXDEPTHCOV {print vd"\t"$0}' >> ${main_dir}/base_mix_depthcov-${depthcov}.txt
  
     
-    cp ${bam}_*.txt ${main_dir}/${vis}
-    cp ${pam}_*.txt ${main_dir}/${vis}
+    cp ${bam}_${depthcov}.txt ${main_dir}/${vis}
+    cp ${pam}_${depthcov}.txt ${main_dir}/${vis}
     
     rm *tem*
     echo "
@@ -236,10 +242,10 @@ for t in *final*bam_*.txt; do
     if [[ ${t} == pmd* ]]
     then
         sample="${sample//.bam_${depthcov}.*/_${depthcov}_pmd}"
-	ranges=$(awk -v SAMPLE=${sample} '$1==SAMPLE {print $2}' ${main_dir}/tem_range_pmd_${depthcov}.txt)
+		ranges=$(awk -v SAMPLE=${sample} '$1==SAMPLE {print $2}' ${main_dir}/tem_range_pmd_${depthcov}.txt)
 	else
-	sample="${sample//.bam_${depthcov}.*/_${depthcov}}"
-	ranges=$(awk -v SAMPLE=${sample} '$1==SAMPLE {print $2}' ${main_dir}/tem_range_${depthcov}.txt)
+		sample="${sample//.bam_${depthcov}.*/_${depthcov}}"
+		ranges=$(awk -v SAMPLE=${sample} '$1==SAMPLE {print $2}' ${main_dir}/tem_range_${depthcov}.txt)
     fi
     #Fake tabulators are converted into real ones
     sed -i 's/    /\t/g' ${t}
@@ -277,11 +283,11 @@ while read sample; do
 	-v v4=$(awk -v v4_1=${sample} '$1==v4_1 {print $2}' tem_cov.txt) \
 	-v v5=$(awk -v v5_1=${sample} '$1==v5_1 {print $2}' tem_qual.txt) \
 	-v v6=$(awk -v v6_1=${sample} '$1==v6_1 {print $2}' tem_useful_pmd.txt) \
-	-v v7=$(awk -v v7_1=${sample} '$1==v7_1 {print $0}' base_mix_depthcov_${depthcov}.txt | wc -l) \
-	-v v8=$(awk -v v8_1=\"${sample}_5\" '$1==v8_1 {print $2"\t"$4}' tem_haplos.txt | sed 's/"//g' | sed 's/\t/--/g') \
+	-v v7=$(awk -v v7_1=${sample} '$1==v7_1 {print $0}' base_mix_depthcov-${depthcov}.txt | wc -l) \
+	-v v8=$(awk -v v8_1=\"${sample}_${depthcov}\" '$1==v8_1 {print $2"\t"$4}' tem_haplos.txt | sed 's/"//g' | sed 's/\t/--/g') \
 	-v v9=$(awk -v v9_1=${sample} '$1==v9_1 {print $2}' tem_goodcovinsamples_${depthcov}.txt) \
-	-v v10=$(awk -v v10_1=${sample}_5 '$1==v10_1 {print $2}' tem_range_${depthcov}.txt) \
-	-v v11=$(awk -v v11_1=${sample}_5 '$1==v11_1 {print $0}' tem_haplogrep_format.txt | cut -f 4- | sed 's/\t/__/g') \
+	-v v10=$(awk -v v10_1=${sample}_${depthcov} '$1==v10_1 {print $2}' tem_range_${depthcov}.txt) \
+	-v v11=$(awk -v v11_1=${sample}_${depthcov} '$1==v11_1 {print $0}' tem_haplogrep_format.txt | cut -f 4- | sed 's/\t/__/g') \
 	'$1==v0 {print v0"\t"v1"\t"v2"\t"v3"\t"v3/v1*100"\t"v4"\t"v5"\t"v6"\t"v6/v3*100"\t"v7"\t"v8"\t"100*v9/1198"\t"v10"\t"v11}' \
 	| sed 's/--/\t/g' | sed 's/__/ /g' |  sed 's/16519T$//g' | sed 's/\t16519T\t/\t\t/g' |sed 's/,/\./g' | sort -h >> final_table.txt
 done < samples.txt
