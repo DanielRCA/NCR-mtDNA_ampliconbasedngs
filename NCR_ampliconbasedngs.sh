@@ -185,11 +185,11 @@ while read sample; do
  	#Depth coverage over DEPTHCOVX in file with all reads
 	samtools depth ${bam} | awk -v DEPTHCOV=${depthcov} '$3>=DEPTHCOV {print $2}' |  awk '{if ($1<670) print $1+15900; else print $1-669}' | awk  '$1 < 303 || $1 > 315 {print $1}' | sort -n > temp.txt
 	range=$(python ${main_dir}/range.py temp.txt | sed "s/[',\[\)\( ]//g" | sed "s/]//g" | sed "s/;$//")
-	echo "${sample}_${DEPTHCOV} ${range}" >> ${main_dir}/tem_range_${depthcov}.txt
+	echo "${sample}_${depthcov} ${range}" >> ${main_dir}/tem_range_${depthcov}.txt
  	#Depth coverage over DEPTHCOVX in file with damaged reads 
 	samtools depth ${pam} | awk -F "\t" -v DEPTHCOV=${depthcov} '$3>=DEPTHCOV {print($2)}' |  awk '{if ($1<670) print $1+15900; else print $1-669}' | awk  '$1 < 303 || $1 > 315 {print $1}' | sort -n > temp_pmd.txt
 	range_pmd=$(python ${main_dir}/range.py temp_pmd.txt | sed "s/[',\[\)\( ]//g" | sed "s/]//g" | sed "s/;$//")
-	echo "${sample}_${DEPTHCOV}_pmd ${range_pmd}" >> ${main_dir}/tem_range_pmd_${depthcov}.txt
+	echo "${sample}_${depthcov}_pmd ${range_pmd}" >> ${main_dir}/tem_range_pmd_${depthcov}.txt
     rm temp_pmd.txt
     
     bases_with_good_cov=$(samtools depth ${bam} | awk -v DEPTHCOV=${depthcov} '$3>=DEPTHCOV {print $2"\t"1}' | awk '{sum += $2} END {print sum}')
