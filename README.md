@@ -6,7 +6,7 @@
 DanielRCA/NCR-mtDNA_ampliconbasedngs is an easy-to-use bioinformatic tool to analyse the [Non-Coding Region](https://en.wikipedia.org/wiki/MtDNA_control_region) of ancient human mtDNA obtained by an [amplicon](https://en.wikipedia.org/wiki/Amplicon)-based [Next Generation Sequencing](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC3841808/) method ([PowerSeq<sup>(TM)</sup> CRM Nested System kit](https://www.promega.es/products/forensic-dna-analysis-mps/target-amplification-and-library-prep/powerseq-crm-nested-system-custom/?catNum=AX5810), Promega Corporation).
 
 
-## Pipeline Summary
+## Pipeline Summary,
 
 The pipeline performs the following:
 
@@ -123,12 +123,12 @@ Several outputs are generated in the same directory where all the scripts are st
 This pipeline is under revision. Please, cite this repository.
 
 References of the tools used:
-- **FastQC** S. Andrews (2010); FASTQC. A quality control tool for high throughput sequence data, https://www.bioinformatics.babraham.ac.uk/projects/fastqc/
-- **fastp** S. Chen, Y. Zhou, Y. Chen, J. Gu (2018), fastp: an ultra-fast all-in-one FASTQ preprocessor. Bioinformatics, Volume 34, Issue 17, pages i884–i890. https://doi.org/10.1093/bioinformatics/bty560
-- **BWA** H. Li, R. Durbin, (2009); Fast and accurate short read alignment with Burrows-Wheeler transform. Bioinformatics, Volume 5, pages 1754–1760. https://doi.org/10.1093/bioinformatics/btp324
-- **SAMtools** P. Danecek, JK. Bonfield, J. Liddle, J. Marshall, V. Ohan, MO. Pollard, A. Whitwham, T. Keane, SA. McCarthy, RM. Davies, H. Li (2021); Twelve years of SAMtools and BCFtools. GigaScience, Volume 10, Issue 2. https://doi.org/10.1093/gigascience/giab008
-- **QualiMap** K. Okonechnikov, A. Conesa, F. García-Alcalde (2016); Qualimap 2: advanced multi-sample quality control for high-throughput sequencing data.  Bioinformatics, Volume 32, Issue 2, pages 292–294. https://doi.org/10.1093/bioinformatics/btv566
-- **PMDtools** P. Skoglund, BH. Northoff, MV. Shunkov, A. Derevianko, S. Pääbo, J. Krause, M. Jakobsson (2014); Separating ancient DNA from modern contamination in a Siberian Neandertal. Proceedings of the National Academy of Sciences USA. https://doi.org/10.1073/pnas.1318934111
-- **freebayes** E. Garrison, G. Marth (2012); Haplotype-based variant detection from short-read sequencing. arXiv preprint arXiv:1207.3907 [q-bio.GN]
-- **vcflib** E. Garrison, ZN. Kronenberg, ET. Dawson, BS Pedersen, P Prins (2022); A spectrum of free software tools for processing the VCF variant call format: vcflib, bio-vcf, cyvcf2, hts-nim and slivar. PLoS Comput Biol Volume 18, Issue 5. https://doi.org/10.1371/journal.pcbi.1009123
-- **HaploGrep2** H. Weissensteiner, D. Pacher, A. Kloss-Brandstätter, L. Forer, G. Specht, HJ. Bandelt, F. Kronenberg, A. Salas, S. Schönherr (2016); HaploGrep 2: mitochondrial haplogroup classification in the era of high-throughput sequencing. Nucleic Acids Res. Volume 44, pages 58–63. https://doi.org/10.1093/nar/gkw233
+- **FastQC**: S. Andrews (2010); FASTQC. A quality control tool for high throughput sequence data, https://www.bioinformatics.babraham.ac.uk/projects/fastqc/
+- **fastp**: S. Chen, Y. Zhou, Y. Chen, J. Gu (2018), fastp: an ultra-fast all-in-one FASTQ preprocessor. Bioinformatics, Volume 34, Issue 17, pages i884–i890. https://doi.org/10.1093/bioinformatics/bty560
+- **BWA**: H. Li, R. Durbin, (2009); Fast and accurate short read alignment with Burrows-Wheeler transform. Bioinformatics, Volume 5, pages 1754–1760. https://doi.org/10.1093/bioinformatics/btp324
+- **SAMtools**: P. Danecek, JK. Bonfield, J. Liddle, J. Marshall, V. Ohan, MO. Pollard, A. Whitwham, T. Keane, SA. McCarthy, RM. Davies, H. Li (2021); Twelve years of SAMtools and BCFtools. GigaScience, Volume 10, Issue 2. https://doi.org/10.1093/gigascience/giab008
+- **QualiMap**: K. Okonechnikov, A. Conesa, F. García-Alcalde (2016); Qualimap 2: advanced multi-sample quality control for high-throughput sequencing data.  Bioinformatics, Volume 32, Issue 2, pages 292–294. https://doi.org/10.1093/bioinformatics/btv566
+- **PMDtools**: P. Skoglund, BH. Northoff, MV. Shunkov, A. Derevianko, S. Pääbo, J. Krause, M. Jakobsson (2014); Separating ancient DNA from modern contamination in a Siberian Neandertal. Proceedings of the National Academy of Sciences USA. https://doi.org/10.1073/pnas.1318934111
+- **freebayes**: E. Garrison, G. Marth (2012); Haplotype-based variant detection from short-read sequencing. arXiv preprint arXiv:1207.3907 [q-bio.GN]
+- **vcflib**: E. Garrison, ZN. Kronenberg, ET. Dawson, BS Pedersen, P Prins (2022); A spectrum of free software tools for processing the VCF variant call format: vcflib, bio-vcf, cyvcf2, hts-nim and slivar. PLoS Comput Biol Volume 18, Issue 5. https://doi.org/10.1371/journal.pcbi.1009123
+- **HaploGrep2**: H. Weissensteiner, D. Pacher, A. Kloss-Brandstätter, L. Forer, G. Specht, HJ. Bandelt, F. Kronenberg, A. Salas, S. Schönherr (2016); HaploGrep 2: mitochondrial haplogroup classification in the era of high-throughput sequencing. Nucleic Acids Res. Volume 44, pages 58–63. https://doi.org/10.1093/nar/gkw233
