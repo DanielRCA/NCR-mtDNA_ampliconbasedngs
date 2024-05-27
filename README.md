@@ -65,6 +65,11 @@ You can change the environment's name in the "conda create" command when creatin
   conda create --name name_environment --file Conda_Environment_File_NCR-mtDNA_ngsamplicon.txt
   ````
 
+Download all the repository with:
+ ```bash
+  git clone https://github.com/DanielRCA/NCR-mtDNA_ampliconbasedngs/
+  ````
+
 
 ### Usage
 
@@ -80,6 +85,11 @@ We strongly recommend to save the information in a log file, so you can find whe
 > [!NOTE]
 > You can try it with the samples we upload to the **test** directory. Remember that the samples should be in the same directory as the [input files](#inputs).
 
+Following variables can be modified on the top of the script:
+- **depthcov**: Minimum depth coverage (default = 10). *At line 8*
+- **freq**: Minimum allele frequency to consider a mixture (default = 0.3). *At line 10*
+- **minaltount**: Minimum amount of alternative alleles to be included (default = 3). *At line 12*
+- **seq_ref**: Reference sequnece (default = rCRS_NCR_lineal.fasta). *At line 41*
 
 #### Inputs
 
@@ -100,11 +110,12 @@ Once the indices for the reference genome are created, they will be saved so tha
 
 Several outputs are generated in the same directory where all the scripts are stored:
 
- - A table containing the following information: ID, number of initial reads, duplication rate, number of useful reads, percentage of useful reads, mean depth coverage, mean mapping quality, number of useful damaged reads, percentage of damaged reads, number of mixed bases, haplogroup, haplogroup quality, range of positions and haplotype, all for depth coverage ≥ 5 and depth coverage ≥ 10.
- - An HSD file called "haplogrep_format.txt" to upload to [Haplogrep3](https://haplogrep.i-med.ac.at/), wich provides more specific information not available through local analysis. This file contains all the information for both all reads and only reads with post-mortem molecular damage extracted by PMDtools for depth coverage ≥ 5 and ≥ 10.
- - Two TXT files, one for each depth coverage analysed (≥ 5 and ≥ 10), containing information on the mixed bases (sample, position, alternative base, depth coverage of the position, number of appearances of the alternative base, and percentage of the alternative base). A base only will appear if the percentage of mixture is between 30 and 70%.
+ - A table containing the following information: ID, number of initial reads, duplication rate, number of useful reads, percentage of useful reads, mean depth coverage, mean mapping quality, number of useful damaged reads, percentage of damaged reads, number of mixed bases, haplogroup, haplogroup quality, range of positions and haplotype, all for depth coverage ≥ 10.
+ - An HSD file called "haplogrep_format.txt" to upload to [Haplogrep3](https://haplogrep.i-med.ac.at/), wich provides more specific information not available through local analysis. This file contains all the information for both all reads and only reads with post-mortem molecular damage extracted by PMDtools for depth coverage ≥ 10.
+ - Two TXT files, one for each depth coverage analysed (≥ 10), containing information on the mixed bases (sample, position, alternative base, depth coverage of the position, number of appearances of the alternative base, and percentage of the alternative base). A base only will appear if the percentage of mixture is between 30 and 70%.
 
-![pipeline](https://github.com/DanielRCA/NCR-mtDNA_ampliconbasedngs/assets/97441691/62983384-8d23-47a6-90b5-74f56d284227)
+![pipeline](https://github.com/DanielRCA/NCR-mtDNA_ampliconbasedngs/assets/97441691/7da5d721-32c5-4325-8504-7dde04ec960f)
+
 
 
 ## Citations
