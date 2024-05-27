@@ -66,7 +66,7 @@ You can change the environment's name in the "conda create" command when creatin
   ````
 
 
-Download all the repository with:
+Download the whole repository with:
  ```bash
   git clone https://github.com/DanielRCA/NCR-mtDNA_ampliconbasedngs/
   ````
