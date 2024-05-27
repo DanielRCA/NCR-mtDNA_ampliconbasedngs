@@ -65,6 +65,7 @@ You can change the environment's name in the "conda create" command when creatin
   conda create --name name_environment --file Conda_Environment_File_NCR-mtDNA_ngsamplicon.txt
   ````
 
+
 Download all the repository with:
  ```bash
   git clone https://github.com/DanielRCA/NCR-mtDNA_ampliconbasedngs/
@@ -92,7 +93,7 @@ Yoh have to save the following in the same directory:
   1. [NCR_ampliconbasedngs.sh](https://github.com/DanielRCA/NCR-mtDNA_ampliconbasedngs/blob/main/NCR_ampliconbasedngs.sh): the pipeline itself. Following variables can be modified on the top of the script:
       - **depthcov**: Minimum depth coverage (default = 10). *At line 8*
       - **freq**: Minimum allele frequency to consider a mixture (default = 0.3). *At line 10*
-      - **minaltount**: Minimum amount of alternative alleles to be included (default = 3). *At line 12*
+      - **minaltcount**: Minimum amount of alternative alleles to be included (default = 3). *At line 12*
       - **seq_ref**: The reference genome (default = rCRS_NCR_lineal.fasta). *At line 41*
   2. [rCRS_NCR_lineal.fasta](https://github.com/DanielRCA/NCR-mtDNA_ampliconbasedngs/blob/main/rCRS_NCR_lineal.fast): the reference genome
   3. [range.py](https://github.com/DanielRCA/NCR-mtDNA_ampliconbasedngs/blob/main/range.py): a Python script to generate positions ranges
