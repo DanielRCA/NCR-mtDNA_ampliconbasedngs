@@ -85,16 +85,15 @@ We strongly recommend to save the information in a log file, so you can find whe
 > [!NOTE]
 > You can try it with the samples we upload to the **test** directory. Remember that the samples should be in the same directory as the [input files](#inputs).
 
-Following variables can be modified on the top of the script:
-- **depthcov**: Minimum depth coverage (default = 10). *At line 8*
-- **freq**: Minimum allele frequency to consider a mixture (default = 0.3). *At line 10*
-- **minaltount**: Minimum amount of alternative alleles to be included (default = 3). *At line 12*
-- **seq_ref**: Reference sequnece (default = rCRS_NCR_lineal.fasta). *At line 41*
 
 #### Inputs
 
 Yoh have to save the following in the same directory:
-  1. [NCR_ampliconbasedngs.sh](https://github.com/DanielRCA/NCR-mtDNA_ampliconbasedngs/blob/main/NCR_ampliconbasedngs.sh): the pipeline itself
+  1. [NCR_ampliconbasedngs.sh](https://github.com/DanielRCA/NCR-mtDNA_ampliconbasedngs/blob/main/NCR_ampliconbasedngs.sh): the pipeline itself. Following variables can be modified on the top of the script:
+      - **depthcov**: Minimum depth coverage (default = 10). *At line 8*
+      - **freq**: Minimum allele frequency to consider a mixture (default = 0.3). *At line 10*
+      - **minaltount**: Minimum amount of alternative alleles to be included (default = 3). *At line 12*
+      - **seq_ref**: The reference genome (default = rCRS_NCR_lineal.fasta). *At line 41*
   2. [rCRS_NCR_lineal.fasta](https://github.com/DanielRCA/NCR-mtDNA_ampliconbasedngs/blob/main/rCRS_NCR_lineal.fast): the reference genome
   3. [range.py](https://github.com/DanielRCA/NCR-mtDNA_ampliconbasedngs/blob/main/range.py): a Python script to generate positions ranges
   4. Samples: each sample (2 FastQ files) should be stored in a separate directory, with the directory name matching how the sample is going to be named
