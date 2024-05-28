@@ -67,20 +67,17 @@ And close it typing:
   ```bash
   conda deactivate
   ````
-You can change the environment's name in the "conda create" command when creating it:
-  ```bash
-  conda create --name name_environment --file Conda_Environment_File_NCR-mtDNA_ngsamplicon.txt
-  ````
 
 ### Usage
 
-You have to be in the directory where you have all your input files and type on the command-line:
-  ```bash
-  bash NCR_ampliconbasedngs.sh
-  ```
-We strongly recommend to save the information in a log file, so you can find where the possible mistake is (`time` parameter will give you how much time was the script running and it can be removed). Type as follow:
+You have to be in the directory where you have all your input files. We strongly recommend to save the information in a log file, so you can find where the possible mistake is (`time` parameter will give you how much time was the script running and it can be removed). Type in the command line as follow:
 ```bash
   time bash NCR_ampliconbasedngs.sh 2>&1 | tee NCR_ampliconbasedngs.log
+  ```
+
+You can also type on the command-line the following (but it is recommended to run the previous command instead):
+  ```bash
+  bash NCR_ampliconbasedngs.sh
   ```
 
 > [!NOTE]
