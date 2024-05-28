@@ -11,7 +11,7 @@ freq=0.3
 # Minimum amount of alternative alleles to be included
 minaltcount=3
 
-if [[ -f *.fastq ]]; then
+if ls *.fastq.gz 1> /dev/null 2>&1; then
 	for fastq_file in *.fastq.gz; do
 		sample="${fastq_file//_S*/}"
 		if [[ -d ${sample} ]]; then
