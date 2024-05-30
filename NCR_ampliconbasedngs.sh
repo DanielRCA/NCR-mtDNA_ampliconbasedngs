@@ -13,7 +13,7 @@ minaltcount=3
 
 if ls *.fastq.gz 1> /dev/null 2>&1; then
 	for fastq_file in *.fastq.gz; do
-		sample="${fastq_file//_S*/}"
+		sample="${fastq_file//_R*/}"
 		if [[ -d ${sample} ]]; then
 			mv ${fastq_file} ${sample}
 	    else
